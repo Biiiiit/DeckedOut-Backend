@@ -20,4 +20,10 @@ public class CreateCardRequest {
 
     @NotNull
     private Type type;
+
+    private Integer damage;
+
+    private Integer healing;
+
+    private Integer shielding;
 }
