@@ -8,6 +8,7 @@ import strategy_card_game.Persistance.Entity.CardEntity;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 
@@ -54,4 +55,10 @@ public class FakeCardRepositoryImpl implements CardRepository {
         return Collections.unmodifiableList(this.savedCards);
     }
 
+    @Override
+    public Optional<CardEntity> findById(long cardId) {
+        return this.savedCards.stream()
+                .filter(cardEntity -> cardEntity.getId().equals(cardId))
+                .findFirst();
+    }
 }
