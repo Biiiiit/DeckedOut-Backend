@@ -1,7 +1,7 @@
 package strategy_card_game.Domain;
 
 public enum Type {
-    Atk_Normal,
+    Atk,
     Heal,
     Shield,
     Effect;
