@@ -20,8 +20,8 @@ public class GetCardsUseCaseImpl implements GetCardsUseCase {
     @Override
     public GetAllCardsResponse getCards(final GetAllCardsRequest request) {
         List<CardEntity> results;
-        if (StringUtils.hasText(request.getType())) {
-            results = cardRepository.findAllByType(request.getType());
+        if (StringUtils.hasText(String.valueOf(request.getType()))) {
+            results = cardRepository.findAllByType(String.valueOf(request.getType()));
         } else {
             results = cardRepository.findAll();
         }

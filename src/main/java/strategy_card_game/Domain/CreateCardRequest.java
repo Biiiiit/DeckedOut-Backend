@@ -14,16 +14,14 @@ import lombok.NoArgsConstructor;
 public class CreateCardRequest {
     @NotNull
     private Long id;
-
     @NotBlank
     private String name;
-
     @NotNull
     private Type type;
-
+    @NotNull
     private Integer damage;
-
+    @NotNull
     private Integer healing;
-
+    @NotNull
     private Integer shielding;
 }
