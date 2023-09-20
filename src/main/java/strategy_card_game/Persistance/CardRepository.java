@@ -3,8 +3,10 @@ package strategy_card_game.Persistance;
 import strategy_card_game.Persistance.Entity.CardEntity;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface CardRepository {
+
     boolean existsByName(String name);
 
     List<CardEntity> findAllByType(String type);
@@ -15,4 +17,5 @@ public interface CardRepository {
 
     List<CardEntity> findAll();
 
+    Optional<CardEntity> findById(long cardID);
 }
