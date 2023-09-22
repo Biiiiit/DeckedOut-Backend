@@ -41,6 +41,7 @@ public class FakeCardRepositoryImpl implements CardRepository {
             card.setId(NEXT_ID);
             NEXT_ID++;
             this.savedCards.add(card);
+            System.out.println("Card saved: " + card.getName()); // Add this line for logging
         }
         return card;
     }

@@ -13,4 +13,16 @@ public class CardEntity {
     private Integer damage;
     private Integer healing;
     private Integer shielding;
+
+    public CardEntity(Long id, String name, Type type, Integer damage, Integer healing, Integer shielding) {
+        this.id = id;
+        this.name = name;
+        this.type = type;
+        this.damage = damage;
+        this.healing = healing;
+        this.shielding = shielding;
+    }
 }
+
+
+
