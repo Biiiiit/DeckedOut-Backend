@@ -2,8 +2,8 @@ package strategy_card_game.Business.Card.impl;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import strategy_card_game.Business.Card.Exception.InvalidCardException;
 import strategy_card_game.Business.Card.UpdateCardUseCase;
-import strategy_card_game.Business.User.Exception.InvalidUserException;
 import strategy_card_game.Domain.Card.UpdateCardRequest;
 import strategy_card_game.Persistance.CardRepository;
 import strategy_card_game.Persistance.Entity.CardEntity;
@@ -19,7 +19,7 @@ public class UpdateCardUseCaseImpl implements UpdateCardUseCase {
     public void updateCard(UpdateCardRequest request) {
         Optional<CardEntity> cardOptional = cardRepository.findById(request.getId());
         if (cardOptional.isEmpty()) {
-            throw new InvalidUserException("CARD_ID_INVALID");
+            throw new InvalidCardException("CARD_ID_INVALID");
         }
 
         CardEntity card = cardOptional.get();

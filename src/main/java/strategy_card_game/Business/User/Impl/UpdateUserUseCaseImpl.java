@@ -2,7 +2,7 @@ package strategy_card_game.Business.User.Impl;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import strategy_card_game.Business.Card.Exception.InvalidCardException;
+import strategy_card_game.Business.User.Exception.InvalidUserException;
 import strategy_card_game.Business.User.UpdateUserUseCase;
 import strategy_card_game.Domain.User.UpdateUserRequest;
 import strategy_card_game.Persistance.Entity.UserEntity;
@@ -18,7 +18,7 @@ public class UpdateUserUseCaseImpl implements UpdateUserUseCase {
     public void updateUser(UpdateUserRequest request) {
         Optional<UserEntity> userOptional = userRepository.findById(request.getId());
         if (userOptional.isEmpty()) {
-            throw new InvalidCardException("USER_ID_INVALID");
+            throw new InvalidUserException("USER_ID_INVALID");
         }
 
         UserEntity user = userOptional.get();
