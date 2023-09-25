@@ -1,7 +1,7 @@
 package strategy_card_game.Persistance.Impl;
 
 import org.springframework.stereotype.Repository;
-import strategy_card_game.Domain.Type;
+import strategy_card_game.Domain.Card.TypeOfCard;
 import strategy_card_game.Persistance.CardRepository;
 import strategy_card_game.Persistance.Entity.CardEntity;
 
@@ -27,11 +27,11 @@ public class FakeCardRepositoryImpl implements CardRepository {
 
     @Override
     public List<CardEntity> findAllByType(String type) {
-        Type cardType = Type.fromString(type);
+        TypeOfCard cardTypeOfCard = TypeOfCard.fromString(type);
 
         return this.savedCards
                 .stream()
-                .filter(cardEntity -> cardType == cardEntity.getType())
+                .filter(cardEntity -> cardTypeOfCard == cardEntity.getTypeOfCard())
                 .collect(Collectors.toList());
     }
 
@@ -41,7 +41,6 @@ public class FakeCardRepositoryImpl implements CardRepository {
             card.setId(NEXT_ID);
             NEXT_ID++;
             this.savedCards.add(card);
-            System.out.println("Card saved: " + card.getName()); // Add this line for logging
         }
         return card;
     }

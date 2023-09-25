@@ -5,8 +5,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import strategy_card_game.Business.*;
-import strategy_card_game.Domain.*;
+import strategy_card_game.Business.Card.*;
+import strategy_card_game.Domain.Card.*;
 
 import java.util.Optional;
 

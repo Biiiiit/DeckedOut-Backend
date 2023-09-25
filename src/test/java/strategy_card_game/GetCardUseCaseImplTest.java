@@ -2,14 +2,14 @@ package strategy_card_game;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import strategy_card_game.Business.CreateCardUseCase;
-import strategy_card_game.Business.GetCardUseCase;
-import strategy_card_game.Business.impl.CreateCardUseCaseImpl;
-import strategy_card_game.Business.impl.GetCardUseCaseImpl;
-import strategy_card_game.Domain.Card;
-import strategy_card_game.Domain.CreateCardRequest;
-import strategy_card_game.Domain.CreateCardResponse;
-import strategy_card_game.Domain.Type;
+import strategy_card_game.Business.Card.CreateCardUseCase;
+import strategy_card_game.Business.Card.GetCardUseCase;
+import strategy_card_game.Business.Card.impl.CreateCardUseCaseImpl;
+import strategy_card_game.Business.Card.impl.GetCardUseCaseImpl;
+import strategy_card_game.Domain.Card.Card;
+import strategy_card_game.Domain.Card.CreateCardRequest;
+import strategy_card_game.Domain.Card.CreateCardResponse;
+import strategy_card_game.Domain.Card.TypeOfCard;
 import strategy_card_game.Persistance.CardRepository;
 import strategy_card_game.Persistance.Impl.FakeCardRepositoryImpl;
 
@@ -34,7 +34,7 @@ public class GetCardUseCaseImplTest {
     @Test
     public void testGetCard() {
         // Create a card using createCardUseCase
-        CreateCardRequest cardRequest = new CreateCardRequest(null, "Card1", Type.Atk, 10, 0, 0);
+        CreateCardRequest cardRequest = new CreateCardRequest(null, "Card1", TypeOfCard.Atk, 10, 0, 0);
         CreateCardResponse createResponse = createCardUseCase.createCard(cardRequest);
 
         // Get the created card using getCardUseCase
@@ -44,7 +44,7 @@ public class GetCardUseCaseImplTest {
         assertTrue(optionalCard.isPresent());
         Card card = optionalCard.get();
         assertEquals("Card1", card.getName());
-        assertEquals(Type.Atk, card.getType());
+        assertEquals(TypeOfCard.Atk, card.getTypeOfCard());
         assertEquals(10, card.getDamage());
         assertEquals(0, card.getHealing());
         assertEquals(0, card.getShielding());

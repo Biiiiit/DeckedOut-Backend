@@ -2,11 +2,11 @@ package strategy_card_game;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import strategy_card_game.Business.Exception.CardAlreadyExistsException;
-import strategy_card_game.Business.impl.CreateCardUseCaseImpl;
-import strategy_card_game.Domain.CreateCardRequest;
-import strategy_card_game.Domain.CreateCardResponse;
-import strategy_card_game.Domain.Type;
+import strategy_card_game.Business.Card.Exception.CardAlreadyExistsException;
+import strategy_card_game.Business.Card.impl.CreateCardUseCaseImpl;
+import strategy_card_game.Domain.Card.CreateCardRequest;
+import strategy_card_game.Domain.Card.CreateCardResponse;
+import strategy_card_game.Domain.Card.TypeOfCard;
 import strategy_card_game.Persistance.CardRepository;
 import strategy_card_game.Persistance.Entity.CardEntity;
 import strategy_card_game.Persistance.Impl.FakeCardRepositoryImpl;
@@ -28,7 +28,7 @@ public class CreateCardUseCaseImplTest {
     @Test
     public void testCreateCardSuccess() {
         // Create a mock CreateCardRequest
-        CreateCardRequest request = new CreateCardRequest(1L,"CardName", Type.Atk, 10, 0, 0);
+        CreateCardRequest request = new CreateCardRequest(1L,"CardName", TypeOfCard.Atk, 10, 0, 0);
 
         // Call the createCard method
         CreateCardResponse response = createCardUseCase.createCard(request);
@@ -41,11 +41,11 @@ public class CreateCardUseCaseImplTest {
     @Test
     public void testCreateCardFailureCardAlreadyExists() {
         // Create a card in the fake repository
-        CardEntity existingCard = new CardEntity(null, "ExistingCardName", Type.Atk, 10, 0, 0);
+        CardEntity existingCard = new CardEntity(null, "ExistingCardName", TypeOfCard.Atk, 10, 0, 0);
         fakeCardRepository.save(existingCard);
 
         // Create a CreateCardRequest for an existing card
-        CreateCardRequest request = new CreateCardRequest(1L, "ExistingCardName", Type.Atk, 10, 0, 0);
+        CreateCardRequest request = new CreateCardRequest(1L, "ExistingCardName", TypeOfCard.Atk, 10, 0, 0);
 
         // Call the createCard method and expect a CardAlreadyExistsException
         assertThrows(CardAlreadyExistsException.class, () -> createCardUseCase.createCard(request));

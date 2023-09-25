@@ -2,13 +2,13 @@ package strategy_card_game;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import strategy_card_game.Business.CreateCardUseCase;
-import strategy_card_game.Business.DeleteCardUseCase;
-import strategy_card_game.Business.GetCardsUseCase;
-import strategy_card_game.Business.impl.CreateCardUseCaseImpl;
-import strategy_card_game.Business.impl.DeleteCardUseCaseImpl;
-import strategy_card_game.Business.impl.GetCardsUseCaseImpl;
-import strategy_card_game.Domain.*;
+import strategy_card_game.Business.Card.CreateCardUseCase;
+import strategy_card_game.Business.Card.DeleteCardUseCase;
+import strategy_card_game.Business.Card.GetCardsUseCase;
+import strategy_card_game.Business.Card.impl.CreateCardUseCaseImpl;
+import strategy_card_game.Business.Card.impl.DeleteCardUseCaseImpl;
+import strategy_card_game.Business.Card.impl.GetCardsUseCaseImpl;
+import strategy_card_game.Domain.Card.*;
 import strategy_card_game.Persistance.CardRepository;
 import strategy_card_game.Persistance.Impl.FakeCardRepositoryImpl;
 
@@ -35,7 +35,7 @@ public class DeleteCardUseCaseImplTest {
     @Test
     public void testDeleteCard() {
         // Create a card using createCardUseCase
-        CreateCardRequest cardRequest = new CreateCardRequest(null, "Card1", Type.Atk, 10, 0, 0);
+        CreateCardRequest cardRequest = new CreateCardRequest(null, "Card1", TypeOfCard.Atk, 10, 0, 0);
         CreateCardResponse createResponse = createCardUseCase.createCard(cardRequest);
 
         // Get all cards and verify that the card is present

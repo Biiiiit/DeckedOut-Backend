@@ -2,14 +2,14 @@ package strategy_card_game;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import strategy_card_game.Business.CreateCardUseCase;
-import strategy_card_game.Business.GetCardsUseCase;
-import strategy_card_game.Business.impl.CreateCardUseCaseImpl;
-import strategy_card_game.Business.impl.GetCardsUseCaseImpl;
-import strategy_card_game.Domain.Card;
-import strategy_card_game.Domain.CreateCardRequest;
-import strategy_card_game.Domain.GetAllCardsRequest;
-import strategy_card_game.Domain.Type;
+import strategy_card_game.Business.Card.CreateCardUseCase;
+import strategy_card_game.Business.Card.GetCardsUseCase;
+import strategy_card_game.Business.Card.impl.CreateCardUseCaseImpl;
+import strategy_card_game.Business.Card.impl.GetCardsUseCaseImpl;
+import strategy_card_game.Domain.Card.Card;
+import strategy_card_game.Domain.Card.CreateCardRequest;
+import strategy_card_game.Domain.Card.GetAllCardsRequest;
+import strategy_card_game.Domain.Card.TypeOfCard;
 import strategy_card_game.Persistance.CardRepository;
 import strategy_card_game.Persistance.Impl.FakeCardRepositoryImpl;
 
@@ -33,8 +33,8 @@ public class GetCardsUseCaseImplTest {
     @Test
     public void testGetAllCards() {
         // Create two cards using createCardUseCase
-        CreateCardRequest card1Request = new CreateCardRequest(null, "Card1", Type.Atk, 10, 0, 0);
-        CreateCardRequest card2Request = new CreateCardRequest(null, "Card2", Type.Shield, 0, 0, 4);
+        CreateCardRequest card1Request = new CreateCardRequest(null, "Card1", TypeOfCard.Atk, 10, 0, 0);
+        CreateCardRequest card2Request = new CreateCardRequest(null, "Card2", TypeOfCard.Shield, 0, 0, 4);
 
         createCardUseCase.createCard(card1Request);
         createCardUseCase.createCard(card2Request);
