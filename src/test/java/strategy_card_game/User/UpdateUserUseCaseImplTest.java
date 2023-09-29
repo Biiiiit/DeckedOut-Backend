@@ -1,4 +1,4 @@
-package strategy_user_game;
+package strategy_card_game.User;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

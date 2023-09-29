@@ -1,4 +1,4 @@
-package strategy_card_game;
+package strategy_card_game.Card;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -26,7 +26,7 @@ public class UpdateCardUseCaseImplTest {
 
     @BeforeEach
     public void setUp() {
-        fakeCardRepository = new FakeCardRepositoryImpl(); // Instantiate your fake repository
+        fakeCardRepository = new FakeCardRepositoryImpl();
         getCardsUseCase = new GetCardsUseCaseImpl(fakeCardRepository);
         createCardUseCase = new CreateCardUseCaseImpl(fakeCardRepository);
         updateCardUseCase = new UpdateCardUseCaseImpl(fakeCardRepository);
@@ -34,11 +34,9 @@ public class UpdateCardUseCaseImplTest {
 
     @Test
     public void testUpdateCard() {
-        // Create a card using createCardUseCase
         CreateCardRequest cardRequest = new CreateCardRequest(null, "Card1", TypeOfCard.Atk, 10, 0, 0);
         CreateCardResponse createResponse = createCardUseCase.createCard(cardRequest);
 
-        // Get all cards and verify that the card is present
         List<Card> cardsBeforeUpdate = getCardsUseCase.getCards(new GetAllCardsRequest()).getCards();
         assertTrue(cardsBeforeUpdate.stream().anyMatch(card -> card.getId().equals(createResponse.getCardId())));
 
@@ -46,7 +44,6 @@ public class UpdateCardUseCaseImplTest {
         UpdateCardRequest updateRequest = new UpdateCardRequest(createResponse.getCardId(), "UpdatedCard", TypeOfCard.Shield, 5, 2, 1);
         updateCardUseCase.updateCard(updateRequest);
 
-        // Get all cards again and verify that the card is updated
         List<Card> cardsAfterUpdate = getCardsUseCase.getCards(new GetAllCardsRequest()).getCards();
         assertTrue(cardsAfterUpdate.stream().anyMatch(card -> card.getId().equals(createResponse.getCardId())));
         Card updatedCard = cardsAfterUpdate.stream()
@@ -63,10 +60,8 @@ public class UpdateCardUseCaseImplTest {
 
     @Test
     public void testUpdateInvalidCard() {
-        // Attempt to update a card with an invalid ID
         UpdateCardRequest updateRequest = new UpdateCardRequest(999L, "UpdatedCard", TypeOfCard.Shield, 5, 2, 1);
 
-        // Ensure that an InvalidCardException is thrown
         assertThrows(InvalidCardException.class, () -> updateCardUseCase.updateCard(updateRequest));
     }
 }
