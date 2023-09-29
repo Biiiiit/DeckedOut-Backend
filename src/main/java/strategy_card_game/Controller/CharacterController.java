@@ -5,10 +5,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import strategy_card_game.Business.Card.CreateCardUseCase;
-import strategy_card_game.Business.Card.UpdateCardUseCase;
 import strategy_card_game.Business.Playable_Character.*;
-import strategy_card_game.Domain.Card.*;
 import strategy_card_game.Domain.Playable_Character.*;
 
 import java.util.Optional;
@@ -25,7 +22,7 @@ public class CharacterController {
 
     @GetMapping("{id}")
     public ResponseEntity<PlayableCharacter> getCharacter(@PathVariable(value = "id") final long id) {
-        final Optional<PlayableCharacter> characterOptional = getCharactersUseCase.getCharacters(id);
+        final Optional<PlayableCharacter> characterOptional = getCharacterUseCase.getCharacter(id);
         if (characterOptional.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
