@@ -10,7 +10,7 @@ public interface UserRepository {
 
     UserEntity save(UserEntity user);
 
-    void deleteById(long cardId);
+    void deleteById(long enemyId);
 
     List<UserEntity> findAll();
 
