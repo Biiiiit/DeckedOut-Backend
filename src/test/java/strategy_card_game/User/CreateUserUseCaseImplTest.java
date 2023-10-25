@@ -26,7 +26,7 @@ public class CreateUserUseCaseImplTest {
 
     @Test
     public void testCreateUserSuccess() {
-        CreateUserRequest request = new CreateUserRequest(1L,"Username", "email", "password", TypeOfUser.admin);
+        CreateUserRequest request = new CreateUserRequest(1L,"Username", "email", "password", "admin");
 
         // Call the createCard method
         CreateUserResponse response = createUserUseCase.createUser(request);
@@ -43,7 +43,7 @@ public class CreateUserUseCaseImplTest {
         fakeUserRepository.save(existingUser);
 
         // Create a CreateCardRequest for an existing card
-        CreateUserRequest request = new CreateUserRequest(1L, "ExistingUsername", "email", "password", TypeOfUser.admin);
+        CreateUserRequest request = new CreateUserRequest(1L, "ExistingUsername", "email", "password", "admin");
 
         // Call the createCard method and expect a CardAlreadyExistsException
         assertThrows(UserAlreadyExistsException.class, () -> createUserUseCase.createUser(request));

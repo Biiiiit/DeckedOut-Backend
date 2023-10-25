@@ -1,3 +1,5 @@
+package strategy_card_game.User;
+
 import org.junit.jupiter.api.Test;
 import strategy_card_game.Domain.User.TypeOfUser;
 

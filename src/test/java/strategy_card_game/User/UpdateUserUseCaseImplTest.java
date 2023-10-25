@@ -33,7 +33,7 @@ public class UpdateUserUseCaseImplTest {
 
     @Test
     public void testUpdateUser() {
-        CreateUserRequest userRequest = new CreateUserRequest(null, "User1", "email", "password", TypeOfUser.admin);
+        CreateUserRequest userRequest = new CreateUserRequest(null, "User1", "email", "password", "admin");
         CreateUserResponse createResponse = createUserUseCase.createUser(userRequest);
 
         List<User> usersBeforeUpdate = getUsersUseCase.getUsers(new GetAllUsersRequest()).getUsers();

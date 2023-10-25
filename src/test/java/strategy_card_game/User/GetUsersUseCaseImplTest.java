@@ -8,7 +8,6 @@ import strategy_card_game.Business.User.Impl.CreateUserUseCaseImpl;
 import strategy_card_game.Business.User.Impl.GetUsersUseCaseImpl;
 import strategy_card_game.Domain.User.CreateUserRequest;
 import strategy_card_game.Domain.User.GetAllUsersRequest;
-import strategy_card_game.Domain.User.TypeOfUser;
 import strategy_card_game.Domain.User.User;
 import strategy_card_game.Persistance.Impl.FakeUserRepositoryImpl;
 import strategy_card_game.Persistance.UserRepository;
@@ -31,8 +30,8 @@ public class GetUsersUseCaseImplTest {
 
     @Test
     public void testGetAllUsers() {
-        CreateUserRequest user1Request = new CreateUserRequest(null, "User1", "email", "password", TypeOfUser.admin);
-        CreateUserRequest user2Request = new CreateUserRequest(null, "User2", "email", "password", TypeOfUser.admin);
+        CreateUserRequest user1Request = new CreateUserRequest(null, "User1", "email", "password", "admin");
+        CreateUserRequest user2Request = new CreateUserRequest(null, "User2", "email", "password", "admin");
 
         createUserUseCase.createUser(user1Request);
         createUserUseCase.createUser(user2Request);

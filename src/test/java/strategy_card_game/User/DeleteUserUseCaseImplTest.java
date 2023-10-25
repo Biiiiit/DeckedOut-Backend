@@ -34,7 +34,7 @@ public class DeleteUserUseCaseImplTest {
     @Test
     public void testDeleteUser() {
         // Create a user using createUserUseCase
-        CreateUserRequest userRequest = new CreateUserRequest(null, "User1", "email", "password", TypeOfUser.admin);
+        CreateUserRequest userRequest = new CreateUserRequest(null, "User1", "email", "password", "admin");
         CreateUserResponse createResponse = createUserUseCase.createUser(userRequest);
 
         // Get all users and verify that the user is present

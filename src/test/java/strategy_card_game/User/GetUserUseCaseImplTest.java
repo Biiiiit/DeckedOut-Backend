@@ -33,7 +33,7 @@ public class GetUserUseCaseImplTest {
     @Test
     public void testGetUser() {
         // Create a user using createUserUseCase
-        CreateUserRequest userRequest = new CreateUserRequest(null, "User1", "email", "password", TypeOfUser.admin);
+        CreateUserRequest userRequest = new CreateUserRequest(null, "User1", "email", "password", "admin");
         CreateUserResponse createResponse = createUserUseCase.createUser(userRequest);
 
         // Get the created user using getUserUseCase
