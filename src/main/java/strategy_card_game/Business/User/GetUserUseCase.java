@@ -6,4 +6,5 @@ import java.util.Optional;
 
 public interface GetUserUseCase {
     Optional<User> getUser(long userID);
+    Optional<User> getUserByUsername(String username);
 }

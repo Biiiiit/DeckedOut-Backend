@@ -6,6 +6,7 @@ import strategy_card_game.Business.User.CreateUserUseCase;
 import strategy_card_game.Business.User.Exception.UserAlreadyExistsException;
 import strategy_card_game.Domain.User.CreateUserRequest;
 import strategy_card_game.Domain.User.CreateUserResponse;
+import strategy_card_game.Domain.User.TypeOfUser;
 import strategy_card_game.Persistance.Entity.UserEntity;
 import strategy_card_game.Persistance.UserRepository;
 
@@ -32,7 +33,7 @@ public class CreateUserUseCaseImpl implements CreateUserUseCase {
                 .username(request.getUsername())
                 .email(request.getEmail())
                 .password(request.getPassword())
-                .type(request.getType())
+                .type(TypeOfUser.fromString(request.getType()))
                 .build();
         return userRepository.save(newUser);
     }
