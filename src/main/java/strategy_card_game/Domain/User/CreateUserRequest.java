@@ -20,6 +20,6 @@ public class CreateUserRequest {
     private String email;
     @NotBlank
     private String password;
-    @NotNull
-    private TypeOfUser type;
+    @NotBlank
+    private String type;
 }

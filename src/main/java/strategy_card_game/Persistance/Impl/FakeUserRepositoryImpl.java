@@ -48,4 +48,11 @@ public class FakeUserRepositoryImpl implements UserRepository {
                 .filter(userEntity -> userEntity.getId().equals(userId))
                 .findFirst();
     }
+
+    @Override
+    public Optional<UserEntity> findByUsername(String username) {
+        return this.savedUsers.stream()
+                .filter(userEntity -> userEntity.getUsername().equals(username))
+                .findFirst();
+    }
 }

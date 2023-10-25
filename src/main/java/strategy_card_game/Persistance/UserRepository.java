@@ -15,4 +15,6 @@ public interface UserRepository {
     List<UserEntity> findAll();
 
     Optional<UserEntity> findById(long userID);
+
+    Optional<UserEntity> findByUsername(String username);
 }

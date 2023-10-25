@@ -1,5 +1,6 @@
 package strategy_card_game.Domain.User;
 
+
 public enum TypeOfUser {
     normal,
     admin;
