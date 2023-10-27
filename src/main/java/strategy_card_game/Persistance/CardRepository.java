@@ -1,21 +1,11 @@
 package strategy_card_game.Persistance;
 
+import org.springframework.data.jpa.repository.JpaRepository;
 import strategy_card_game.Persistance.Entity.CardEntity;
 
-import java.util.List;
-import java.util.Optional;
-
-public interface CardRepository {
+public interface CardRepository extends JpaRepository<CardEntity, Long> {
 
     boolean existsByName(String name);
 
-    List<CardEntity> findAllByType(String type);
 
-    CardEntity save(CardEntity card);
-
-    void deleteById(long cardId);
-
-    List<CardEntity> findAll();
-
-    Optional<CardEntity> findById(long cardID);
 }

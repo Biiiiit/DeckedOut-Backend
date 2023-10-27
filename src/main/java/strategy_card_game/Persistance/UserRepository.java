@@ -1,20 +1,12 @@
 package strategy_card_game.Persistance;
 
+import org.springframework.data.jpa.repository.JpaRepository;
 import strategy_card_game.Persistance.Entity.UserEntity;
 
-import java.util.List;
 import java.util.Optional;
 
-public interface UserRepository {
-    boolean existsByName(String name);
+public interface UserRepository extends JpaRepository<UserEntity, Long> {
+    boolean existsByusername(String name);
 
-    UserEntity save(UserEntity user);
-
-    void deleteById(long enemyId);
-
-    List<UserEntity> findAll();
-
-    Optional<UserEntity> findById(long userID);
-
-    Optional<UserEntity> findByUsername(String username);
+    Optional<UserEntity> findByusername(String username);
 }

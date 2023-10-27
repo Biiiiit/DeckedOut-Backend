@@ -1,5 +1,6 @@
 package strategy_card_game.Business.User.Impl;
 
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import strategy_card_game.Business.User.GetUsersUseCase;
@@ -17,6 +18,7 @@ public class GetUsersUseCaseImpl implements GetUsersUseCase {
     private UserRepository userRepository;
 
     @Override
+    @Transactional
     public GetAllUsersResponse getUsers(final GetAllUsersRequest request) {
         List<UserEntity> results = userRepository.findAll();
 

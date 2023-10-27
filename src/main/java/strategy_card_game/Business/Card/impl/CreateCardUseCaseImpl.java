@@ -1,5 +1,6 @@
 package strategy_card_game.Business.Card.impl;
 
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import strategy_card_game.Persistance.CardRepository;
@@ -15,6 +16,7 @@ public class CreateCardUseCaseImpl implements CreateCardUseCase {
     private final CardRepository cardRepository;
 
     @Override
+    @Transactional
     public CreateCardResponse createCard(CreateCardRequest request){
         if (cardRepository.existsByName(request.getName())){
             throw new CardAlreadyExistsException();
