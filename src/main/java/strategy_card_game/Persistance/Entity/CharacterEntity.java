@@ -1,24 +1,39 @@
 package strategy_card_game.Persistance.Entity;
 
+import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Data;
-import strategy_card_game.Domain.Card.Card;
+import lombok.NoArgsConstructor;
 
-import java.awt.*;
 import java.util.List;
 
 @Builder
 @Data
+@Entity
+@Table(name="characters")
+@NoArgsConstructor
 public class CharacterEntity {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="ID")
     private Long id;
+    @Column(name="name")
     private String name;
+    @Column(name="description")
     private String description;
+    @Column(name="health")
     private Integer health;
+    @Column(name="ammo")
     private Integer ammo;
-    private List<Card> startingDeck;
-    private Image sprite;
+    @Column(name="startingDeck")
+    @OneToMany(fetch = FetchType.EAGER)
+    @JoinColumn(name="cardID")
+    private List<CardEntity> startingDeck;
+    @Lob
+    @Column(name="sprite", columnDefinition = "BLOB")
+    private byte[] sprite;
 
-    public CharacterEntity(Long id, String name, String description, Integer health, Integer ammo, List<Card> startingDeck, Image sprite) {
+    public CharacterEntity(Long id, String name, String description, Integer health, Integer ammo, List<CardEntity> startingDeck, byte[] sprite) {
         this.id = id;
         this.name = name;
         this.description = description;

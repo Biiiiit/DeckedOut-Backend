@@ -23,7 +23,7 @@ public class GetCardsUseCaseImpl implements GetCardsUseCase {
         final GetAllCardsResponse response = new GetAllCardsResponse();
         List<Card> cards = results
                 .stream()
-                .map(CardConverter::convert)
+                .map(CardConverter::convertToCard)
                 .toList();
         response.setCards(cards);
 

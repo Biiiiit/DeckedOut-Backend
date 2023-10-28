@@ -15,6 +15,6 @@ public class GetCardUseCaseImpl implements GetCardUseCase {
     private CardRepository cardRepository;
     @Override
     public Optional<Card> getCard(long cardID) {
-        return cardRepository.findById(cardID).map(CardConverter::convert);
+        return cardRepository.findById(cardID).map(CardConverter::convertToCard);
     }
 }

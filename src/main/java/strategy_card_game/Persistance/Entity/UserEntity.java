@@ -14,15 +14,15 @@ import strategy_card_game.Domain.User.TypeOfUser;
 public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="ID")
+    @Column(name="userID")
     private Long id;
-    @Column(name="Name")
+    @Column(name="name")
     private String username;
-    @Column(name="Email")
+    @Column(name="email")
     private String email;
-    @Column(name="Password")
+    @Column(name="password")
     private String password;
-    @Column(name="Type")
+    @Column(name="type")
     private TypeOfUser type;
 
     public UserEntity(Long id, String username, String email, String password, TypeOfUser type) {

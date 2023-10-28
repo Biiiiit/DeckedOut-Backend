@@ -14,17 +14,17 @@ import strategy_card_game.Domain.Card.TypeOfCard;
 public class CardEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="ID")
+    @Column(name="cardID")
     private Long id;
-    @Column(name="Name")
+    @Column(name="name")
     private String name;
-    @Column(name="Type")
+    @Column(name="type")
     private TypeOfCard typeOfCard;
-    @Column(name="Damage")
+    @Column(name="damage")
     private Integer damage;
-    @Column(name="Healing")
+    @Column(name="healing")
     private Integer healing;
-    @Column(name="Shielding")
+    @Column(name="shielding")
     private Integer shielding;
 
     public CardEntity(Long id, String name, TypeOfCard typeOfCard, Integer damage, Integer healing, Integer shielding) {

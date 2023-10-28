@@ -6,7 +6,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import strategy_card_game.Domain.Card.Card;
 
-import java.awt.*;
 import java.util.List;
 
 @Data
@@ -20,5 +19,5 @@ public class PlayableCharacter {
     private Integer health;
     private Integer ammo;
     private List<Card> startingDeck;
-    private Image sprite;
+    private byte[] sprite;
 }

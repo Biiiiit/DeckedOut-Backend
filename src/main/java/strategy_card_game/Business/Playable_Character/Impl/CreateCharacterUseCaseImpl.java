@@ -2,12 +2,17 @@ package strategy_card_game.Business.Playable_Character.Impl;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import strategy_card_game.Business.Card.impl.CardConverter;
 import strategy_card_game.Business.Playable_Character.CreateCharacterUseCase;
 import strategy_card_game.Business.Playable_Character.Exception.CharacterAlreadyExistsException;
 import strategy_card_game.Domain.Playable_Character.CreateCharacterRequest;
 import strategy_card_game.Domain.Playable_Character.CreateCharacterResponse;
 import strategy_card_game.Persistance.CharacterRepository;
+import strategy_card_game.Persistance.Entity.CardEntity;
 import strategy_card_game.Persistance.Entity.CharacterEntity;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -26,6 +31,9 @@ public class CreateCharacterUseCaseImpl implements CreateCharacterUseCase {
                 .build();
     }
     private CharacterEntity saveNewCharacter(CreateCharacterRequest request) {
+        List<CardEntity> startingDeckEntities = request.getStartingDeck().stream()
+                .map(CardConverter::convertToCardEntity)
+                .collect(Collectors.toList());
 
         CharacterEntity newCharacter = CharacterEntity.builder()
                 .id(request.getId())
@@ -33,7 +41,7 @@ public class CreateCharacterUseCaseImpl implements CreateCharacterUseCase {
                 .description(request.getDescription())
                 .health(request.getHealth())
                 .ammo(request.getAmmo())
-                .startingDeck(request.getStartingDeck())
+                .startingDeck(startingDeckEntities)
                 .sprite(request.getSprite())
                 .build();
         return characterRepository.save(newCharacter);

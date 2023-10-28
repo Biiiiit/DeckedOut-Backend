@@ -8,7 +8,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import strategy_card_game.Domain.Card.Card;
 
-import java.awt.*;
 import java.util.List;
 
 @Data
@@ -29,5 +28,5 @@ public class CreateCharacterRequest {
     @NotNull
     private List<Card> startingDeck;
     @NotNull
-    private Image sprite;
+    private byte[] sprite;
 }
