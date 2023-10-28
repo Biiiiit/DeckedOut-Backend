@@ -11,7 +11,7 @@ import java.util.Optional;
 @Service
 @AllArgsConstructor
 public class GetCharacterUseCaseImpl implements GetCharacterUseCase {
-    private CharacterRepository characterRepository;
+    private final CharacterRepository characterRepository;
     @Override
     public Optional<PlayableCharacter> getCharacter(long characterID) {
         return characterRepository.findById(characterID).map(CharacterConverter::convert);

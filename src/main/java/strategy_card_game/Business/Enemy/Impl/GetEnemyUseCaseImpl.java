@@ -14,6 +14,6 @@ public class GetEnemyUseCaseImpl implements GetEnemyUseCase {
     private EnemyRepository enemyRepository;
     @Override
     public Optional<Enemy> getEnemy(long enemyID) {
-        return enemyRepository.findById(enemyID).map(EnemyConverter::convert);
+        return enemyRepository.findById(enemyID).map(EnemyConverter::convertToEnemy);
     }
 }

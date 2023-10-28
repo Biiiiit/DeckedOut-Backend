@@ -7,8 +7,20 @@ public class EnemyConverter {
     private EnemyConverter() {
     }
 
-    public static Enemy convert(EnemyEntity enemy) {
+    public static Enemy convertToEnemy(EnemyEntity enemy) {
         return Enemy.builder()
+                .id(enemy.getId())
+                .name(enemy.getName())
+                .health(enemy.getHealth())
+                .atk(enemy.getAtk())
+                .healing(enemy.getHealing())
+                .shielding(enemy.getShielding())
+                .pattern(enemy.getPattern())
+                .sprite(enemy.getSprite())
+                .build();
+    }
+    public static EnemyEntity convertToEnemyEntity(Enemy enemy) {
+        return EnemyEntity.builder()
                 .id(enemy.getId())
                 .name(enemy.getName())
                 .health(enemy.getHealth())

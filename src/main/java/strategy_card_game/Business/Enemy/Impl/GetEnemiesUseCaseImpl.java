@@ -23,7 +23,7 @@ public class GetEnemiesUseCaseImpl implements GetEnemiesUseCase {
         final GetAllEnemyResponse response = new GetAllEnemyResponse();
         List<Enemy> enemies = results
                 .stream()
-                .map(EnemyConverter::convert)
+                .map(EnemyConverter::convertToEnemy)
                 .toList();
         response.setEnemies(enemies);
 

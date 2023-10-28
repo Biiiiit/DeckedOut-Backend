@@ -1,4 +1,4 @@
-package strategy_card_game.Domain.Playable_Character;
+package strategy_card_game.Domain.Level;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -6,7 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import strategy_card_game.Domain.Card.Card;
+import strategy_card_game.Domain.Enemy.Enemy;
 
 import java.util.List;
 
@@ -14,17 +14,15 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class GetAllCharactersRequest {
+public class UpdateLevelRequest {
+    @NotNull
+    private Long id;
     @NotBlank
     private String name;
     @NotBlank
-    private String description;
-    @NotBlank
-    private Integer health;
-    @NotBlank
-    private Integer ammo;
+    private List<Enemy> enemies;
     @NotNull
-    private List<Card> startingDeck;
+    private byte[] lvlSprite;
     @NotNull
-    private byte[] sprite;
+    private byte[] backgroundSprite;
 }
