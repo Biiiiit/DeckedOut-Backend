@@ -11,7 +11,7 @@ import strategy_card_game.Domain.Enemy.*;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/enemy")
+@RequestMapping("/enemies")
 @AllArgsConstructor
 public class EnemyController {
     private final GetEnemiesUseCase getEnemiesUseCase;

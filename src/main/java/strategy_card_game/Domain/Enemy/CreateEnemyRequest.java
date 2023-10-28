@@ -7,8 +7,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.awt.*;
-
 @Data
 @Builder
 @NoArgsConstructor
@@ -29,5 +27,5 @@ public class CreateEnemyRequest {
     @NotBlank
     private String pattern;
     @NotNull
-    private Image sprite;
+    private byte[] sprite;
 }

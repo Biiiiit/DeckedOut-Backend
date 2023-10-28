@@ -5,8 +5,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.awt.*;
-
 @Data
 @Builder
 @NoArgsConstructor
@@ -19,5 +17,5 @@ public class Enemy {
     private Integer healing;
     private Integer shielding;
     private String pattern;
-    private Image sprite;
+    private byte[] sprite;
 }
