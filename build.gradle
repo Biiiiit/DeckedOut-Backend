@@ -12,15 +12,28 @@ version = '0.0.1-SNAPSHOT'
 java {
     sourceCompatibility = '17'
 }
-
+jacoco{
+    toolVersion = "0.8.7"
+}
 sonar {
     properties {
         property "sonar.token", "sqp_322e3df87e75c025194402818d19218f8394219b"
         property "sonar.projectKey", "Decked_Out"
         property "sonar.organization", "myOrganization"
         property "sonar.host.url", "http://localhost:9000"
+        property "sonar.qualitygate.wait", true
+        property "sonar.junit.reportPaths", "build/reports/jacoco/test/"
+        property "sonar.coverage.jacoco.xmlReportPaths", "build/jacoco/test/jacocoTestReport.xml"
     }
 }
+
+jacocoTestReport{
+    reports {
+        xml.required = true
+    }
+}
+test.finalizedBy jacocoTestReport
+
 configurations {
     compileOnly {
         extendsFrom annotationProcessor
