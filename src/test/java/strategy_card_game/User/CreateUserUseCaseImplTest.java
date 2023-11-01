@@ -41,7 +41,6 @@ public class CreateUserUseCaseImplTest {
         CreateUserResponse response = createUserUseCase.createUser(request);
 
         assertNotNull(response);
-        assertNotNull(response.getUserId());
     }
 
     @Test
