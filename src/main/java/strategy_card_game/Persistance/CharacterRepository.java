@@ -5,4 +5,6 @@ import strategy_card_game.Persistance.Entity.CharacterEntity;
 
 public interface CharacterRepository extends JpaRepository<CharacterEntity, Long> {
     boolean existsByName(String name);
+
+    Object findByName(String characterName);
 }

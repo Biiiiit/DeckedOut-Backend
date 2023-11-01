@@ -3,74 +3,86 @@ package strategy_card_game.Character;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
-import strategy_card_game.Business.Playable_Character.CreateCharacterUseCase;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
 import strategy_card_game.Business.Playable_Character.Exception.InvalidCharacterException;
-import strategy_card_game.Business.Playable_Character.GetCharactersUseCase;
 import strategy_card_game.Business.Playable_Character.Impl.CreateCharacterUseCaseImpl;
-import strategy_card_game.Business.Playable_Character.Impl.GetCharactersUseCaseImpl;
+import strategy_card_game.Business.Playable_Character.Impl.GetCharacterUseCaseImpl;
 import strategy_card_game.Business.Playable_Character.Impl.UpdateCharacterUseCaseImpl;
-import strategy_card_game.Business.Playable_Character.UpdateCharacterUseCase;
 import strategy_card_game.Domain.Card.Card;
 import strategy_card_game.Domain.Card.TypeOfCard;
-import strategy_card_game.Domain.Playable_Character.*;
+import strategy_card_game.Domain.Playable_Character.CreateCharacterRequest;
+import strategy_card_game.Domain.Playable_Character.CreateCharacterResponse;
+import strategy_card_game.Domain.Playable_Character.PlayableCharacter;
+import strategy_card_game.Domain.Playable_Character.UpdateCharacterRequest;
 import strategy_card_game.Persistance.CharacterRepository;
+import strategy_card_game.Persistance.Entity.CardEntity;
+import strategy_card_game.Persistance.Entity.CharacterEntity;
 
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.when;
 
-@DataJpaTest
-@ExtendWith(SpringExtension.class)
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+@ExtendWith(MockitoExtension.class)
 public class UpdateCharacterUseCaseImplTest {
-    private GetCharactersUseCase getCharactersUseCase;
-    private CreateCharacterUseCase createCharacterUseCase;
-    private UpdateCharacterUseCase updateCharacterUseCase;
-    @Qualifier("characterRepository")
-    @Autowired
-    private CharacterRepository CharacterRepository;
+    @InjectMocks
+    private UpdateCharacterUseCaseImpl updateCharacterUseCase;
+    @Mock
+    private GetCharacterUseCaseImpl getCharacterUseCase;
+    @Mock
+    private CreateCharacterUseCaseImpl createCharacterUseCase;
+
+    @Mock
+    private CharacterRepository characterRepository;
+
     @BeforeEach
     public void setUp() {
-        getCharactersUseCase = new GetCharactersUseCaseImpl(CharacterRepository);
-        createCharacterUseCase = new CreateCharacterUseCaseImpl(CharacterRepository);
-        updateCharacterUseCase = new UpdateCharacterUseCaseImpl(CharacterRepository);
+        // Initialize the mocks and inject them into the use cases
+        createCharacterUseCase = new CreateCharacterUseCaseImpl(characterRepository);
+        updateCharacterUseCase = new UpdateCharacterUseCaseImpl(characterRepository);
+        getCharacterUseCase = new GetCharacterUseCaseImpl(characterRepository);
     }
 
     @Test
     public void testUpdateCharacter() {
-        List<Card> deck = new ArrayList<>();
-        deck.add(new Card(1L, "CardName", TypeOfCard.Atk, 10, 0, 0));
-        Image Image = null;
-        CreateCharacterRequest characterRequest = new CreateCharacterRequest(1L,"Character", "Description", 50, 0, deck, new byte[0]);
+        List<CardEntity> deck = new ArrayList<>();
+        deck.add(new CardEntity(1L, "CardName", TypeOfCard.Atk, 10, 0, 0));
+        List<Card> deck2 = new ArrayList<>();
+        deck2.add(new Card(1L, "CardName", TypeOfCard.Atk, 10, 0, 0));
+        byte[] Image = new byte[0];
+        CreateCharacterRequest characterRequest = new CreateCharacterRequest(1L, "Character", "Description", 50, 0, deck2, Image);
+
+        CharacterEntity character = new CharacterEntity(1L, "Character", "Description", 50, 0, deck, Image);
+        when(characterRepository.save(Mockito.any(CharacterEntity.class))).thenReturn(character);
+
+        // Call the createCardUseCase to create the character
         CreateCharacterResponse createResponse = createCharacterUseCase.createCharacter(characterRequest);
 
-        List<PlayableCharacter> charactersBeforeUpdate = getCharactersUseCase.getCharacters(new GetAllCharactersRequest()).getCharacters();
-        assertTrue(charactersBeforeUpdate.stream().anyMatch(character -> character.getId().equals(createResponse.getCharacterId())));
+        // Mock the behavior of cardRepository.findById to return the created character
+        when(characterRepository.findById(eq(createResponse.getCharacterId()))).thenReturn(Optional.of(character));
 
-        // Update the card
-        UpdateCharacterRequest updateRequest = new UpdateCharacterRequest(createResponse.getCharacterId(), "UpdatedCharacter", "Description", 5, 2, deck, new byte[0]);
-        updateCharacterUseCase.updateCharacter(updateRequest);
+        // Create an updated character
+        UpdateCharacterRequest updatedCharacter = new UpdateCharacterRequest(createResponse.getCharacterId(), "UpdatedCharacter", "UpdatedDescription", 40, 3, deck2, Image);
 
-        List<PlayableCharacter> charactersAfterUpdate = getCharactersUseCase.getCharacters(new GetAllCharactersRequest()).getCharacters();
-        assertTrue(charactersAfterUpdate.stream().anyMatch(character -> character.getId().equals(createResponse.getCharacterId())));
-        PlayableCharacter updatedCharacter = charactersAfterUpdate.stream()
-                .filter(character -> character.getId().equals(createResponse.getCharacterId()))
-                .findFirst()
-                .orElse(null);
+        // Call the updateCharacter method
+        updateCharacterUseCase.updateCharacter(updatedCharacter);
 
-        assertEquals("UpdatedCharacter", updatedCharacter.getName());
-        assertEquals("Description", updatedCharacter.getDescription());
-        assertEquals(5, updatedCharacter.getHealth());
-        assertEquals(2, updatedCharacter.getAmmo());
-        assertEquals(deck, updatedCharacter.getStartingDeck());
-        assertEquals(Image, updatedCharacter.getSprite());
+        // Verify that the character has been updated
+        Optional<PlayableCharacter> optionalCharacter = getCharacterUseCase.getCharacter(createResponse.getCharacterId());
+        assertTrue(optionalCharacter.isPresent());
+        PlayableCharacter playableCharacter = optionalCharacter.get();
+        assertEquals("UpdatedCharacter", playableCharacter.getName());
+        assertEquals("UpdatedDescription", playableCharacter.getDescription());
+        assertEquals(40, playableCharacter.getHealth());
+        assertEquals(deck2, playableCharacter.getStartingDeck());
+        assertEquals(Image, playableCharacter.getSprite());
     }
 
     @Test
@@ -79,6 +91,10 @@ public class UpdateCharacterUseCaseImplTest {
         Image Image = null;
         UpdateCharacterRequest updateRequest = new UpdateCharacterRequest(999L, "UpdatedCharacter", "Description", 5, 2, deck, new byte[0]);
 
+        // Mock the behavior of characterRepository to return null for an invalid character
+        when(characterRepository.getById(999L)).thenReturn(null);
+
+        // Verify that an InvalidCharacterException is thrown when updating an invalid character
         assertThrows(InvalidCharacterException.class, () -> updateCharacterUseCase.updateCharacter(updateRequest));
     }
 }

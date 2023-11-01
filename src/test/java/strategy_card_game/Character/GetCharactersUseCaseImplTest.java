@@ -3,52 +3,50 @@ package strategy_card_game.Character;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
-import strategy_card_game.Business.Playable_Character.CreateCharacterUseCase;
-import strategy_card_game.Business.Playable_Character.GetCharactersUseCase;
-import strategy_card_game.Business.Playable_Character.Impl.CreateCharacterUseCaseImpl;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import strategy_card_game.Business.Playable_Character.Impl.GetCharactersUseCaseImpl;
-import strategy_card_game.Domain.Card.Card;
 import strategy_card_game.Domain.Card.TypeOfCard;
-import strategy_card_game.Domain.Playable_Character.CreateCharacterRequest;
 import strategy_card_game.Domain.Playable_Character.GetAllCharactersRequest;
 import strategy_card_game.Domain.Playable_Character.PlayableCharacter;
 import strategy_card_game.Persistance.CharacterRepository;
+import strategy_card_game.Persistance.Entity.CardEntity;
+import strategy_card_game.Persistance.Entity.CharacterEntity;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.when;
 
-@DataJpaTest
-@ExtendWith(SpringExtension.class)
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+@ExtendWith(MockitoExtension.class)
 public class GetCharactersUseCaseImplTest {
-    private GetCharactersUseCase getCharactersUseCase;
-    private CreateCharacterUseCase createCharacterUseCase;
-    @Qualifier("characterRepository")
-    @Autowired
-    private CharacterRepository CharacterRepository;
+    @InjectMocks
+    private GetCharactersUseCaseImpl getCharactersUseCase;
+
+    @Mock
+    private CharacterRepository characterRepository;
+
     @BeforeEach
     public void setUp() {
-        getCharactersUseCase = new GetCharactersUseCaseImpl(CharacterRepository);
-        createCharacterUseCase = new CreateCharacterUseCaseImpl(CharacterRepository);
+        // No need to create instances here since Mockito takes care of them.
     }
+
     @Test
     public void testGetAllCards() {
-        List<Card> deck = new ArrayList<>();
-        deck.add(new Card(1L, "CardName", TypeOfCard.Atk, 10, 0, 0));
-        Image Image = null;
-        CreateCharacterRequest character1Request = new CreateCharacterRequest(1L,"Character1", "Description", 50, 0, deck, new byte[0]);
-        CreateCharacterRequest character2Request = new CreateCharacterRequest(2L,"Character2", "Description", 50, 0, deck, new byte[0]);
+        List<CardEntity> deck = new ArrayList<>();
+        deck.add(new CardEntity(1L, "CardName", TypeOfCard.Atk, 10, 0, 0));
+        byte[] Image = new byte[0];
 
-        createCharacterUseCase.createCharacter(character1Request);
-        createCharacterUseCase.createCharacter(character2Request);
+        CharacterEntity characterEntity1 = new CharacterEntity(1L, "Character1", "Description", 50, 0, deck, new byte[0]);
+        CharacterEntity characterEntity2 = new CharacterEntity(2L, "Character2", "Description", 50, 0, deck, new byte[0]);
+
+        List<CharacterEntity> characterList = new ArrayList<>();
+        characterList.add(characterEntity1);
+        characterList.add(characterEntity2);
+
+        when(characterRepository.findAll()).thenReturn(characterList);
 
         List<PlayableCharacter> characters = getCharactersUseCase.getCharacters(new GetAllCharactersRequest()).getCharacters();
 
