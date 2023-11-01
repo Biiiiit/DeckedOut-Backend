@@ -20,7 +20,7 @@ public class GetUserUseCaseImpl implements GetUserUseCase {
 
     @Override
     public Optional<User> getUserByUsername(String username) {
-        Optional<User> user = userRepository.findByusername(username).map(UserConverter::convert);
+        Optional<User> user = userRepository.findByUsername(username).map(UserConverter::convert);
         if (user.isPresent()) {
             return getUser(user.get().getId());
         }

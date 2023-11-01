@@ -15,14 +15,12 @@ java {
 
 sonar {
     properties {
+        property "sonar.token", "sqp_322e3df87e75c025194402818d19218f8394219b"
         property "sonar.projectKey", "Decked_Out"
-        property "sonar.projectName", "Decked_Out"
-        property "sonar.login", "sqp_322e3df87e75c025194402818d19218f8394219b"
-        property "sonar.host.url", "localhost:9000"
-        property "sonar.qualitygate.wait", true
+        property "sonar.organization", "myOrganization"
+        property "sonar.host.url", "http://localhost:9000"
     }
 }
-
 configurations {
     compileOnly {
         extendsFrom annotationProcessor

@@ -91,9 +91,6 @@ public class UpdateCharacterUseCaseImplTest {
         Image Image = null;
         UpdateCharacterRequest updateRequest = new UpdateCharacterRequest(999L, "UpdatedCharacter", "Description", 5, 2, deck, new byte[0]);
 
-        // Mock the behavior of characterRepository to return null for an invalid character
-        when(characterRepository.getById(999L)).thenReturn(null);
-
         // Verify that an InvalidCharacterException is thrown when updating an invalid character
         assertThrows(InvalidCharacterException.class, () -> updateCharacterUseCase.updateCharacter(updateRequest));
     }

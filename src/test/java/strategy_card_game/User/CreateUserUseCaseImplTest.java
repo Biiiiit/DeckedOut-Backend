@@ -6,15 +6,13 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import strategy_card_game.Business.User.Exception.UserAlreadyExistsException;
 import strategy_card_game.Business.User.Impl.CreateUserUseCaseImpl;
 import strategy_card_game.Domain.User.CreateUserRequest;
 import strategy_card_game.Domain.User.CreateUserResponse;
+import strategy_card_game.Domain.User.TypeOfUser;
 import strategy_card_game.Persistance.Entity.UserEntity;
 import strategy_card_game.Persistance.UserRepository;
-import strategy_card_game.Business.User.Exception.UserAlreadyExistsException;
-import strategy_card_game.Domain.User.TypeOfUser;
-
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -49,8 +47,8 @@ public class CreateUserUseCaseImplTest {
     @Test
     public void testCreateUserFailureUserAlreadyExists() {
         // Mock the behavior of userRepository.findByUsername to return an existing user.
-        UserEntity existingUser = new UserEntity(1L, "ExistingUsername", "email", "password", TypeOfUser.admin);
-        when(userRepository.findByusername("ExistingUsername")).thenReturn(Optional.of(existingUser));
+        //UserEntity existingUser = new UserEntity(1L, "ExistingUsername", "email", "password", TypeOfUser.admin);
+        when(userRepository.existsByusername("ExistingUsername")).thenReturn(true);
 
         CreateUserRequest request = new CreateUserRequest(1L, "ExistingUsername", "email", "password", "admin");
 
