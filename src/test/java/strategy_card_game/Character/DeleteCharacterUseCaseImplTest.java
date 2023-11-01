@@ -2,6 +2,12 @@ package strategy_card_game.Character;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import strategy_card_game.Business.Playable_Character.CreateCharacterUseCase;
 import strategy_card_game.Business.Playable_Character.DeleteCharacterUseCase;
 import strategy_card_game.Business.Playable_Character.GetCharactersUseCase;
@@ -9,37 +15,43 @@ import strategy_card_game.Business.Playable_Character.Impl.CreateCharacterUseCas
 import strategy_card_game.Business.Playable_Character.Impl.DeleteCharacterUseCaseImpl;
 import strategy_card_game.Business.Playable_Character.Impl.GetCharactersUseCaseImpl;
 import strategy_card_game.Domain.Card.Card;
+import strategy_card_game.Domain.Card.TypeOfCard;
 import strategy_card_game.Domain.Playable_Character.CreateCharacterRequest;
 import strategy_card_game.Domain.Playable_Character.CreateCharacterResponse;
 import strategy_card_game.Domain.Playable_Character.GetAllCharactersRequest;
 import strategy_card_game.Domain.Playable_Character.PlayableCharacter;
 import strategy_card_game.Persistance.CharacterRepository;
-import strategy_card_game.Persistance.Impl.FakeCharacterRepositoryImpl;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+@DataJpaTest
+@ExtendWith(SpringExtension.class)
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 public class DeleteCharacterUseCaseImplTest {
     private GetCharactersUseCase getCharactersUseCase;
     private CreateCharacterUseCase createCharacterUseCase;
     private DeleteCharacterUseCase deleteCharacterUseCase;
-    private CharacterRepository fakeCharacterRepository;
+    @Qualifier("characterRepository")
+    @Autowired
+    private CharacterRepository CharacterRepository;
     @BeforeEach
     public void setUp() {
-        fakeCharacterRepository = new FakeCharacterRepositoryImpl();
-        getCharactersUseCase = new GetCharactersUseCaseImpl(fakeCharacterRepository);
-        createCharacterUseCase = new CreateCharacterUseCaseImpl(fakeCharacterRepository);
-        deleteCharacterUseCase = new DeleteCharacterUseCaseImpl(fakeCharacterRepository);
+        getCharactersUseCase = new GetCharactersUseCaseImpl(CharacterRepository);
+        createCharacterUseCase = new CreateCharacterUseCaseImpl(CharacterRepository);
+        deleteCharacterUseCase = new DeleteCharacterUseCaseImpl(CharacterRepository);
     }
 
     @Test
     public void testDeleteCharacter() {
-        List<Card> deck = null;
+        List<Card> deck = new ArrayList<>();
+        deck.add(new Card(1L, "CardName", TypeOfCard.Atk, 10, 0, 0));
         Image Image = null;
-        CreateCharacterRequest characterRequest = new CreateCharacterRequest(null,"CharacterName", "Description", 50, 0, deck, Image);
+        CreateCharacterRequest characterRequest = new CreateCharacterRequest(1L,"CharacterName", "Description", 50, 0, deck, new byte[0]);
         CreateCharacterResponse createResponse = createCharacterUseCase.createCharacter(characterRequest);
 
         // Get all cards and verify that the card is present

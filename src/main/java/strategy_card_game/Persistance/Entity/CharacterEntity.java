@@ -15,22 +15,25 @@ import java.util.List;
 public class CharacterEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="ID")
+    @Column(name = "ID")
     private Long id;
-    @Column(name="name")
+    @Column(name = "name")
     private String name;
-    @Column(name="description")
+    @Column(name = "description")
     private String description;
-    @Column(name="health")
+    @Column(name = "health")
     private Integer health;
-    @Column(name="ammo")
+    @Column(name = "ammo")
     private Integer ammo;
-    @Column(name="startingDeck")
-    @OneToMany(fetch = FetchType.EAGER)
-    @JoinColumn(name="cardID")
+    @ManyToMany
+    @JoinTable(
+            name = "character_starting_deck",
+            joinColumns = @JoinColumn(name = "character_id"),
+            inverseJoinColumns = @JoinColumn(name = "card_id")
+    )
     private List<CardEntity> startingDeck;
     @Lob
-    @Column(name="sprite", columnDefinition = "BLOB")
+    @Column(name = "sprite", columnDefinition = "BLOB")
     private byte[] sprite;
 
     public CharacterEntity(Long id, String name, String description, Integer health, Integer ammo, List<CardEntity> startingDeck, byte[] sprite) {

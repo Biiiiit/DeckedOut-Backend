@@ -2,6 +2,12 @@ package strategy_card_game.User;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import strategy_card_game.Business.User.CreateUserUseCase;
 import strategy_card_game.Business.User.Exception.InvalidUserException;
 import strategy_card_game.Business.User.GetUsersUseCase;
@@ -10,30 +16,33 @@ import strategy_card_game.Business.User.Impl.GetUsersUseCaseImpl;
 import strategy_card_game.Business.User.Impl.UpdateUserUseCaseImpl;
 import strategy_card_game.Business.User.UpdateUserUseCase;
 import strategy_card_game.Domain.User.*;
-import strategy_card_game.Persistance.Impl.FakeUserRepositoryImpl;
 import strategy_card_game.Persistance.UserRepository;
 
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@DataJpaTest
+@ExtendWith(SpringExtension.class)
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 public class UpdateUserUseCaseImplTest {
     private GetUsersUseCase getUsersUseCase;
     private CreateUserUseCase createUserUseCase;
     private UpdateUserUseCase updateUserUseCase;
-    private UserRepository fakeUserRepository;
+    @Qualifier("userRepository")
+    @Autowired
+    private UserRepository UserRepository;
 
     @BeforeEach
     public void setUp() {
-        fakeUserRepository = new FakeUserRepositoryImpl();
-        getUsersUseCase = new GetUsersUseCaseImpl(fakeUserRepository);
-        createUserUseCase = new CreateUserUseCaseImpl(fakeUserRepository);
-        updateUserUseCase = new UpdateUserUseCaseImpl(fakeUserRepository);
+        getUsersUseCase = new GetUsersUseCaseImpl(UserRepository);
+        createUserUseCase = new CreateUserUseCaseImpl(UserRepository);
+        updateUserUseCase = new UpdateUserUseCaseImpl(UserRepository);
     }
 
     @Test
     public void testUpdateUser() {
-        CreateUserRequest userRequest = new CreateUserRequest(null, "User1", "email", "password", "admin");
+        CreateUserRequest userRequest = new CreateUserRequest(1L, "User1", "email", "password", "admin");
         CreateUserResponse createResponse = createUserUseCase.createUser(userRequest);
 
         List<User> usersBeforeUpdate = getUsersUseCase.getUsers(new GetAllUsersRequest()).getUsers();

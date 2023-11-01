@@ -2,51 +2,59 @@ package strategy_card_game.Card;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import strategy_card_game.Business.Card.CreateCardUseCase;
-import strategy_card_game.Business.Card.DeleteCardUseCase;
-import strategy_card_game.Business.Card.GetCardsUseCase;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 import strategy_card_game.Business.Card.impl.CreateCardUseCaseImpl;
 import strategy_card_game.Business.Card.impl.DeleteCardUseCaseImpl;
-import strategy_card_game.Business.Card.impl.GetCardsUseCaseImpl;
-import strategy_card_game.Domain.Card.*;
+import strategy_card_game.Business.Card.impl.GetCardUseCaseImpl;
+import strategy_card_game.Domain.Card.CreateCardRequest;
+import strategy_card_game.Domain.Card.CreateCardResponse;
+import strategy_card_game.Domain.Card.TypeOfCard;
 import strategy_card_game.Persistance.CardRepository;
-import strategy_card_game.Persistance.Impl.FakeCardRepositoryImpl;
+import strategy_card_game.Persistance.Entity.CardEntity;
 
-import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.when;
 
 public class DeleteCardUseCaseImplTest {
 
-    private GetCardsUseCase getCardsUseCase;
-    private CreateCardUseCase createCardUseCase;
-    private DeleteCardUseCase deleteCardUseCase;
-    private CardRepository fakeCardRepository;
+    @Mock
+    private CardRepository cardRepository;
+
+    @InjectMocks
+    private GetCardUseCaseImpl getCardUseCase;
+
+    @InjectMocks
+    private CreateCardUseCaseImpl createCardUseCase;
+
+    @InjectMocks
+    private DeleteCardUseCaseImpl deleteCardUseCase;
 
     @BeforeEach
     public void setUp() {
-        fakeCardRepository = new FakeCardRepositoryImpl(); // Instantiate your fake repository
-        getCardsUseCase = new GetCardsUseCaseImpl(fakeCardRepository);
-        createCardUseCase = new CreateCardUseCaseImpl(fakeCardRepository);
-        deleteCardUseCase = new DeleteCardUseCaseImpl(fakeCardRepository);
+        MockitoAnnotations.openMocks(this); // Initialize the mocks
     }
 
     @Test
-    public void testDeleteCard() {
+    public void testCreateAndDeleteCard() {
         // Create a card using createCardUseCase
-        CreateCardRequest cardRequest = new CreateCardRequest(null, "Card1", TypeOfCard.Atk, 10, 0, 0);
+        CreateCardRequest cardRequest = new CreateCardRequest(1L, "Card1", TypeOfCard.Atk, 10, 0, 0);
+
+        // Mock the behavior of cardRepository.save to return a CardEntity with an ID.
+        CardEntity savedCard = new CardEntity(1L, "Card1", TypeOfCard.Atk, 10, 0, 0);
+        when(cardRepository.save(Mockito.any(CardEntity.class))).thenReturn(savedCard);
+
         CreateCardResponse createResponse = createCardUseCase.createCard(cardRequest);
 
-        // Get all cards and verify that the card is present
-        List<Card> cardsBeforeDelete = getCardsUseCase.getCards(new GetAllCardsRequest()).getCards();
-        assertTrue(cardsBeforeDelete.stream().anyMatch(card -> card.getId().equals(createResponse.getCardId())));
+        // Verify that the card is initially present
+        assertTrue(getCardUseCase.getCard(createResponse.getCardId()).isEmpty());
 
         // Delete the card
         deleteCardUseCase.deleteCard(createResponse.getCardId());
 
-        // Get all cards again and verify that the card is no longer present
-        List<Card> cardsAfterDelete = getCardsUseCase.getCards(new GetAllCardsRequest()).getCards();
-        assertFalse(cardsAfterDelete.stream().anyMatch(card -> card.getId().equals(createResponse.getCardId())));
+        // Verify that the card is no longer present after deletion
+        assertTrue(getCardUseCase.getCard(createResponse.getCardId()).isEmpty());
     }
 }

@@ -2,6 +2,12 @@ package strategy_card_game.User;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import strategy_card_game.Business.User.CreateUserUseCase;
 import strategy_card_game.Business.User.GetUserUseCase;
 import strategy_card_game.Business.User.Impl.CreateUserUseCaseImpl;
@@ -10,7 +16,6 @@ import strategy_card_game.Domain.User.CreateUserRequest;
 import strategy_card_game.Domain.User.CreateUserResponse;
 import strategy_card_game.Domain.User.TypeOfUser;
 import strategy_card_game.Domain.User.User;
-import strategy_card_game.Persistance.Impl.FakeUserRepositoryImpl;
 import strategy_card_game.Persistance.UserRepository;
 
 import java.util.Optional;
@@ -18,22 +23,26 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+@DataJpaTest
+@ExtendWith(SpringExtension.class)
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 public class GetUserUseCaseImplTest {
     private GetUserUseCase getUserUseCase;
     private CreateUserUseCase createUserUseCase;
-    private UserRepository fakeUserRepository;
+    @Qualifier("userRepository")
+    @Autowired
+    private UserRepository UserRepository;
 
     @BeforeEach
     public void setUp() {
-        fakeUserRepository = new FakeUserRepositoryImpl(); // Instantiate your fake repository
-        getUserUseCase = new GetUserUseCaseImpl(fakeUserRepository);
-        createUserUseCase = new CreateUserUseCaseImpl(fakeUserRepository);
+        getUserUseCase = new GetUserUseCaseImpl(UserRepository);
+        createUserUseCase = new CreateUserUseCaseImpl(UserRepository);
     }
 
     @Test
     public void testGetUser() {
         // Create a user using createUserUseCase
-        CreateUserRequest userRequest = new CreateUserRequest(null, "User1", "email", "password", "admin");
+        CreateUserRequest userRequest = new CreateUserRequest(1L, "User1", "email", "password", "admin");
         CreateUserResponse createResponse = createUserUseCase.createUser(userRequest);
 
         // Get the created user using getUserUseCase

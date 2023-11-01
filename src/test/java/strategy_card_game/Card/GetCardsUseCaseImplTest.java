@@ -2,42 +2,49 @@ package strategy_card_game.Card;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import strategy_card_game.Business.Card.CreateCardUseCase;
-import strategy_card_game.Business.Card.GetCardsUseCase;
-import strategy_card_game.Business.Card.impl.CreateCardUseCaseImpl;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import strategy_card_game.Business.Card.impl.GetCardsUseCaseImpl;
 import strategy_card_game.Domain.Card.Card;
-import strategy_card_game.Domain.Card.CreateCardRequest;
 import strategy_card_game.Domain.Card.GetAllCardsRequest;
 import strategy_card_game.Domain.Card.TypeOfCard;
 import strategy_card_game.Persistance.CardRepository;
-import strategy_card_game.Persistance.Impl.FakeCardRepositoryImpl;
+import strategy_card_game.Persistance.Entity.CardEntity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.when;
 
+@ExtendWith(MockitoExtension.class)  // Use MockitoExtension for JUnit 5
 public class GetCardsUseCaseImplTest {
 
-    private GetCardsUseCase getCardsUseCase;
-    private CreateCardUseCase createCardUseCase;
-    private CardRepository fakeCardRepository;
+    @InjectMocks
+    private GetCardsUseCaseImpl getCardsUseCase;
+
+    @Mock
+    private CardRepository cardRepository;
 
     @BeforeEach
     public void setUp() {
-        fakeCardRepository = new FakeCardRepositoryImpl(); // Instantiate your fake repository
-        getCardsUseCase = new GetCardsUseCaseImpl(fakeCardRepository);
-        createCardUseCase = new CreateCardUseCaseImpl(fakeCardRepository);
+        // No need to create the instance of getCardsUseCase here since Mockito takes care of it.
     }
 
     @Test
     public void testGetAllCards() {
-        // Create two cards using createCardUseCase
-        CreateCardRequest card1Request = new CreateCardRequest(null, "Card1", TypeOfCard.Atk, 10, 0, 0);
-        CreateCardRequest card2Request = new CreateCardRequest(null, "Card2", TypeOfCard.Shield, 0, 0, 4);
+        // Create mock CardEntities to be returned by the repository
+        CardEntity cardEntity1 = new CardEntity(1L, "Card1", TypeOfCard.Atk, 10, 0, 0);
+        CardEntity cardEntity2 = new CardEntity(2L, "Card2", TypeOfCard.Shield, 0, 0, 4);
 
-        createCardUseCase.createCard(card1Request);
-        createCardUseCase.createCard(card2Request);
+        List<CardEntity> cardEntities = new ArrayList<>();
+        cardEntities.add(cardEntity1);
+        cardEntities.add(cardEntity2);
+
+        // Mock the behavior of cardRepository.findAll to return the list of CardEntities
+        when(cardRepository.findAll()).thenReturn(cardEntities);
 
         // Call the getCards method
         List<Card> cards = getCardsUseCase.getCards(new GetAllCardsRequest()).getCards();
