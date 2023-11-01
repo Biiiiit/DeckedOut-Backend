@@ -3,71 +3,70 @@ package strategy_card_game.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
 import strategy_card_game.Business.User.CreateUserUseCase;
 import strategy_card_game.Business.User.Exception.InvalidUserException;
-import strategy_card_game.Business.User.GetUsersUseCase;
-import strategy_card_game.Business.User.Impl.CreateUserUseCaseImpl;
-import strategy_card_game.Business.User.Impl.GetUsersUseCaseImpl;
 import strategy_card_game.Business.User.Impl.UpdateUserUseCaseImpl;
-import strategy_card_game.Business.User.UpdateUserUseCase;
 import strategy_card_game.Domain.User.*;
+import strategy_card_game.Persistance.Entity.UserEntity;
 import strategy_card_game.Persistance.UserRepository;
 
-import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
-@DataJpaTest
-@ExtendWith(SpringExtension.class)
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+@ExtendWith(MockitoExtension.class)
 public class UpdateUserUseCaseImplTest {
-    private GetUsersUseCase getUsersUseCase;
+    @InjectMocks
+    private UpdateUserUseCaseImpl updateUserUseCase;
+
+    @Mock
+    private UserRepository userRepository;
+
+    @Mock
     private CreateUserUseCase createUserUseCase;
-    private UpdateUserUseCase updateUserUseCase;
-    @Qualifier("userRepository")
-    @Autowired
-    private UserRepository UserRepository;
 
     @BeforeEach
     public void setUp() {
-        getUsersUseCase = new GetUsersUseCaseImpl(UserRepository);
-        createUserUseCase = new CreateUserUseCaseImpl(UserRepository);
-        updateUserUseCase = new UpdateUserUseCaseImpl(UserRepository);
+        // No need to create the instance of updateUserUseCase here since Mockito takes care of it.
     }
 
     @Test
     public void testUpdateUser() {
-        CreateUserRequest userRequest = new CreateUserRequest(1L, "User1", "email", "password", "admin");
-        CreateUserResponse createResponse = createUserUseCase.createUser(userRequest);
+        // Create a mock UserEntity to be returned by the repository
+        UserEntity userEntity = new UserEntity(1L, "User1", "email", "password", TypeOfUser.admin);
 
-        List<User> usersBeforeUpdate = getUsersUseCase.getUsers(new GetAllUsersRequest()).getUsers();
-        assertTrue(usersBeforeUpdate.stream().anyMatch(user -> user.getId().equals(createResponse.getUserId())));
+        // Mock the behavior of userRepository.findById to return the UserEntity when called with 1L
+        when(userRepository.findById(1L)).thenReturn(Optional.of(userEntity));
 
-        UpdateUserRequest updateRequest = new UpdateUserRequest(createResponse.getUserId(), "UpdatedUser", "email", "password", TypeOfUser.normal);
+        // Create an UpdateUserRequest
+        UpdateUserRequest updateRequest = new UpdateUserRequest(1L, "UpdatedUser", "email", "password", TypeOfUser.normal);
+
+        // Call the updateUser method
         updateUserUseCase.updateUser(updateRequest);
 
-        List<User> usersAfterUpdate = getUsersUseCase.getUsers(new GetAllUsersRequest()).getUsers();
-        assertTrue(usersAfterUpdate.stream().anyMatch(user -> user.getId().equals(createResponse.getUserId())));
-        User updatedUser = usersAfterUpdate.stream()
-                .filter(user -> user.getId().equals(createResponse.getUserId()))
-                .findFirst()
-                .orElse(null);
-
-        assertEquals("UpdatedUser", updatedUser.getUsername());
-        assertEquals("email", updatedUser.getEmail());
-        assertEquals("password", updatedUser.getPassword());
-        assertEquals(TypeOfUser.normal, updatedUser.getType());
+        // Verify that the user has been updated
+        verify(userRepository, Mockito.times(1)).save(Mockito.any(UserEntity.class));
+        assertEquals("UpdatedUser", userEntity.getUsername());
+        assertEquals("email", userEntity.getEmail());
+        assertEquals("password", userEntity.getPassword());
+        assertEquals(TypeOfUser.normal, userEntity.getType());
     }
 
     @Test
     public void testUpdateInvalidUser() {
+        // Create an UpdateUserRequest for a non-existent user
         UpdateUserRequest updateRequest = new UpdateUserRequest(999L, "UpdatedUser", "email", "password", TypeOfUser.normal);
 
+        // Mock the behavior of userRepository.findById to return an empty Optional
+        when(userRepository.findById(999L)).thenReturn(Optional.empty());
+
+        // Expect an InvalidUserException when attempting to update an invalid user
         assertThrows(InvalidUserException.class, () -> updateUserUseCase.updateUser(updateRequest));
     }
 }

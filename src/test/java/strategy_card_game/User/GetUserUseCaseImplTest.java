@@ -3,50 +3,48 @@ package strategy_card_game.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import strategy_card_game.Business.User.CreateUserUseCase;
-import strategy_card_game.Business.User.GetUserUseCase;
-import strategy_card_game.Business.User.Impl.CreateUserUseCaseImpl;
 import strategy_card_game.Business.User.Impl.GetUserUseCaseImpl;
-import strategy_card_game.Domain.User.CreateUserRequest;
-import strategy_card_game.Domain.User.CreateUserResponse;
 import strategy_card_game.Domain.User.TypeOfUser;
 import strategy_card_game.Domain.User.User;
+import strategy_card_game.Persistance.Entity.UserEntity;
 import strategy_card_game.Persistance.UserRepository;
 
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.when;
 
-@DataJpaTest
-@ExtendWith(SpringExtension.class)
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+@ExtendWith(MockitoExtension.class)
 public class GetUserUseCaseImplTest {
-    private GetUserUseCase getUserUseCase;
+    @InjectMocks
+    private GetUserUseCaseImpl getUserUseCase;
+
+    @Mock
     private CreateUserUseCase createUserUseCase;
-    @Qualifier("userRepository")
-    @Autowired
-    private UserRepository UserRepository;
+
+    @Mock
+    private UserRepository userRepository;
 
     @BeforeEach
     public void setUp() {
-        getUserUseCase = new GetUserUseCaseImpl(UserRepository);
-        createUserUseCase = new CreateUserUseCaseImpl(UserRepository);
+        // No need to create the instance of getUserUseCase here since Mockito takes care of it.
     }
 
     @Test
     public void testGetUser() {
-        // Create a user using createUserUseCase
-        CreateUserRequest userRequest = new CreateUserRequest(1L, "User1", "email", "password", "admin");
-        CreateUserResponse createResponse = createUserUseCase.createUser(userRequest);
+        // Create a mock UserEntity to be returned by the repository
+        UserEntity userEntity = new UserEntity(1L, "User1", "email", "password", TypeOfUser.admin);
+
+        // Mock the behavior of userRepository.findById to return the UserEntity when called with 1L
+        when(userRepository.findById(1L)).thenReturn(Optional.of(userEntity));
 
         // Get the created user using getUserUseCase
-        Optional<User> optionalUser = getUserUseCase.getUser(createResponse.getUserId());
+        Optional<User> optionalUser = getUserUseCase.getUser(1L);
 
         // Verify that the user is present and has the correct details
         assertTrue(optionalUser.isPresent());
@@ -60,6 +58,8 @@ public class GetUserUseCaseImplTest {
     @Test
     public void testGetNonExistentUser() {
         // Attempt to get a user with an invalid ID
+        when(userRepository.findById(999L)).thenReturn(Optional.empty());
+
         Optional<User> optionalUser = getUserUseCase.getUser(999L);
 
         // Verify that the optional is empty as the user doesn't exist
