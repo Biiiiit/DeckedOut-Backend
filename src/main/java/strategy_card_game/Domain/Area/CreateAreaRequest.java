@@ -23,4 +23,6 @@ public class CreateAreaRequest {
     private String description;
     @NotNull
     private List<Level> listOfLevels;
+    @NotNull
+    private byte[] backgroundSprite;
 }

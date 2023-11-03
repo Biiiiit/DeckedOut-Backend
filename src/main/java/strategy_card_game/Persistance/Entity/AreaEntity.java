@@ -28,11 +28,15 @@ public class AreaEntity {
             inverseJoinColumns = @JoinColumn(name = "level_id")
     )
     private List<LevelEntity> listOfLevels;
+    @Lob
+    @Column(name = "backgroundSprite", columnDefinition = "BLOB")
+    private byte[] backgroundSprite;
 
-    public AreaEntity(Long id, String name, String description, List<LevelEntity> listOfLevels) {
+    public AreaEntity(Long id, String name, String description, List<LevelEntity> listOfLevels, byte[] backgroundSprite) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.listOfLevels = listOfLevels;
+        this.backgroundSprite = backgroundSprite;
     }
 }

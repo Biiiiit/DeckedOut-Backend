@@ -17,4 +17,5 @@ public class Area {
     private String name;
     private String description;
     private List<Level> listOfLevels;
+    private byte[] backgroundSprite;
 }
