@@ -10,5 +10,4 @@ CREATE TABLE level_enemies (
      level_id int,
      enemy_id int,
      FOREIGN KEY (level_id) REFERENCES levels(id),
-     FOREIGN KEY (enemy_id) REFERENCES enemies(id)
 );

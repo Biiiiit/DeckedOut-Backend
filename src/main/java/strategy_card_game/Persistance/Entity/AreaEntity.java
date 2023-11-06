@@ -21,7 +21,7 @@ public class AreaEntity {
     private String name;
     @Column(name = "description")
     private String description;
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "list_of_levels",
             joinColumns = @JoinColumn(name = "area_id"),
