@@ -23,7 +23,7 @@ public class GetLevelsUseCaseImpl implements GetLevelsUseCase {
         final GetAllLevelsResponse response = new GetAllLevelsResponse();
         List<Level> levels = results
                 .stream()
-                .map(LevelConverter::convert)
+                .map(LevelConverter::convertToLevel)
                 .toList();
         response.setLevels(levels);
 
