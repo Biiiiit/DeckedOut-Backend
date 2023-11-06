@@ -15,6 +15,6 @@ public class GetAreaUseCaseImpl implements GetAreaUseCase {
 
     @Override
     public Optional<Area> getArea(long areaID) {
-        return areaRepository.findById(areaID).map(AreaConverter::convert);
+        return areaRepository.findById(areaID).map(AreaConverter::convertToArea);
     }
 }

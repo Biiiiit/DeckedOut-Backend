@@ -23,7 +23,7 @@ public class GetAreasUseCaseImpl implements GetAreasUseCase {
         final GetAllAreasResponse response = new GetAllAreasResponse();
         List<Area> areas = results
                 .stream()
-                .map(AreaConverter::convert)
+                .map(AreaConverter::convertToArea)
                 .toList();
         response.setAreas(areas);
 

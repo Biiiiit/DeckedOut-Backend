@@ -23,7 +23,7 @@ public class GetCharactersUseCaseImpl implements GetCharactersUseCase {
         final GetAllCharactersResponse response = new GetAllCharactersResponse();
         List<PlayableCharacter> characters = results
                 .stream()
-                .map(CharacterConverter::convert)
+                .map(CharacterConverter::convertToCharacter)
                 .toList();
         response.setCharacters(characters);
 

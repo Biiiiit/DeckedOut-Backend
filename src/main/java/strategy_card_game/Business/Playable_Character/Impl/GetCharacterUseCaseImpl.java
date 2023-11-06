@@ -14,6 +14,6 @@ public class GetCharacterUseCaseImpl implements GetCharacterUseCase {
     private final CharacterRepository characterRepository;
     @Override
     public Optional<PlayableCharacter> getCharacter(long characterID) {
-        return characterRepository.findById(characterID).map(CharacterConverter::convert);
+        return characterRepository.findById(characterID).map(CharacterConverter::convertToCharacter);
     }
 }
