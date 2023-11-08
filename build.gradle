@@ -2,8 +2,8 @@ plugins {
     id 'java'
     id 'org.springframework.boot' version '3.1.3'
     id 'io.spring.dependency-management' version '1.1.3'
-    id "org.sonarqube" version "4.2.1.3168"
-    id "jacoco"
+    id 'org.sonarqube' version '4.3.1.3277'
+    id 'jacoco'
 }
 
 group = 'com.example'
@@ -13,21 +13,26 @@ java {
     sourceCompatibility = '17'
 }
 jacoco{
-    toolVersion = "0.8.7"
+    toolVersion = '0.8.7'
 }
 sonar {
     properties {
-        property "sonar.token", "sqp_322e3df87e75c025194402818d19218f8394219b"
-        property "sonar.projectKey", "Decked_Out"
-        property "sonar.organization", "myOrganization"
-        property "sonar.host.url", "http://localhost:9000"
-        property "sonar.qualitygate.wait", true
-        property "sonar.junit.reportPaths", "build/reports/jacoco/test/"
-        property "sonar.coverage.jacoco.xmlReportPaths", "build/jacoco/test/jacocoTestReport.xml"
+        property 'sonar.token', 'sqp_322e3df87e75c025194402818d19218f8394219b'
+        property 'sonar.projectKey', 'Decked_Out'
+        property 'sonar.organization', 'myOrganization'
+        property 'sonar.host.url', 'http://localhost:9000'
+        property 'sonar.qualitygate.wait', true
+        //property 'sonar.junit.reportPaths', 'build/reports/jacoco/test/'
+        //property 'sonar.coverage.jacoco.xmlReportPaths', 'build/jacoco/test/jacocoTestReport.xml'
     }
 }
 
-jacocoTestReport{
+tasks.named('test') {
+    useJUnitPlatform()
+    finalizedBy jacocoTestReport
+}
+
+jacocoTestReport {
     reports {
         xml.required = true
     }
@@ -56,8 +61,4 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.cloud:spring-cloud-starter-bootstrap:4.0.4'
     testImplementation 'com.playtika.testcontainers:embedded-mysql:3.0.0-RC9'
-}
-
-tasks.named('test') {
-    useJUnitPlatform()
 }

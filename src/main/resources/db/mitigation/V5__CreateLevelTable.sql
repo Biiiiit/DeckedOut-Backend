@@ -9,5 +9,5 @@ CREATE TABLE levels(
 CREATE TABLE level_enemies (
      level_id int,
      enemy_id int,
-     FOREIGN KEY (level_id) REFERENCES levels(id),
+     FOREIGN KEY (level_id) REFERENCES levels(id) ON DELETE SET NULL
 );

@@ -15,7 +15,7 @@ import java.util.List;
 public class CharacterEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ID")
+    @Column(name = "id")
     private Long id;
     @Column(name = "name")
     private String name;
@@ -25,7 +25,7 @@ public class CharacterEntity {
     private Integer health;
     @Column(name = "ammo")
     private Integer ammo;
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "character_starting_deck",
             joinColumns = @JoinColumn(name = "character_id"),

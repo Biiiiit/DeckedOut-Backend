@@ -5,4 +5,5 @@ CREATE TABLE cards{
     damage int(MAX),
     healing int(MAX),
     shielding int(MAX)
+    PRIMARY KEY (id)
     }

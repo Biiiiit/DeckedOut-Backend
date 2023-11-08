@@ -14,7 +14,7 @@ import strategy_card_game.Domain.User.TypeOfUser;
 public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="userID")
+    @Column(name="id")
     private Long id;
     @Column(name="name")
     private String username;

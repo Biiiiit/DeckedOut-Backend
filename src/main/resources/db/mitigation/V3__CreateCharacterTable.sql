@@ -9,7 +9,12 @@ CREATE TABLE characters(
 );
 
 CREATE TABLE character_starting_deck (
-     character_id int,
-     card_id int,  -- Allow this to be nullable
-     FOREIGN KEY (character_id) REFERENCES characters(id)
+                                         character_id INT,
+                                         card_id INT,
+                                         FOREIGN KEY (character_id) REFERENCES characters(id) ON DELETE CASCADE,
+                                         FOREIGN KEY (card_id) REFERENCES cards(id) ON DELETE CASCADE
 );
+
+
+
+

@@ -14,7 +14,7 @@ import strategy_card_game.Domain.Card.TypeOfCard;
 public class CardEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="cardID")
+    @Column(name="id")
     private Long id;
     @Column(name="name")
     private String name;

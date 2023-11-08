@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 public class EnemyEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="ID")
+    @Column(name="id")
     private Long id;
     @Column(name="name")
     private String name;
