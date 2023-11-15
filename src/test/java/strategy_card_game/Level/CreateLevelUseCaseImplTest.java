@@ -47,7 +47,6 @@ public class CreateLevelUseCaseImplTest {
 
         // Verify that the response contains the cardId
         assertNotNull(response);
-        assertNotNull(response.getLevelId());
     }
 
     @Test

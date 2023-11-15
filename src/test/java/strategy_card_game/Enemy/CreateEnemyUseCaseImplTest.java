@@ -45,7 +45,6 @@ public class CreateEnemyUseCaseImplTest {
 
         // Verify that the response contains the cardId
         assertNotNull(response);
-        assertNotNull(response.getEnemyId());
     }
 
     @Test

@@ -15,6 +15,9 @@ java {
 jacoco{
     toolVersion = '0.8.7'
 }
+tasks.named('sonar') configure {
+    dependsOn jacocoTestReport
+}
 sonar {
     properties {
         property 'sonar.token', 'sqp_322e3df87e75c025194402818d19218f8394219b'
@@ -33,6 +36,7 @@ tasks.named('test') {
 }
 
 jacocoTestReport {
+    dependsOn test
     reports {
         xml.required = true
     }
