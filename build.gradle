@@ -25,6 +25,7 @@ sonar {
         property 'sonar.organization', 'myOrganization'
         property 'sonar.host.url', 'http://localhost:9000'
         property 'sonar.qualitygate.wait', true
+        sonar.sources=src/main/java/strategy_card_game/Business
         //property 'sonar.junit.reportPaths', 'build/reports/jacoco/test/'
         //property 'sonar.coverage.jacoco.xmlReportPaths', 'build/jacoco/test/jacocoTestReport.xml'
     }
