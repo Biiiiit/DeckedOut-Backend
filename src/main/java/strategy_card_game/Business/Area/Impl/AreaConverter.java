@@ -8,9 +8,9 @@ import strategy_card_game.Persistance.Entity.LevelEntity;
 
 import java.util.List;
 import java.util.stream.Collectors;
-
 public class AreaConverter {
-    public AreaConverter() {
+    private AreaConverter(){
+
     }
 
     public static Area convertToArea(AreaEntity area) {

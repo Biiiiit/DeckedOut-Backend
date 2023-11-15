@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class GameConverter {
-    public GameConverter() {
+    private GameConverter() {
     }
 
     public static Game convert(GameEntity game) {
