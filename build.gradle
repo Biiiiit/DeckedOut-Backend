@@ -26,8 +26,6 @@ sonar {
         property 'sonar.host.url', 'http://localhost:9000'
         property 'sonar.qualitygate.wait', true
         property "sonar.sources", "src/main/java/strategy_card_game/Business"
-        //property 'sonar.junit.reportPaths', 'build/reports/jacoco/test/'
-        //property 'sonar.coverage.jacoco.xmlReportPaths', 'build/jacoco/test/jacocoTestReport.xml'
     }
 }
 
@@ -66,4 +64,12 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.cloud:spring-cloud-starter-bootstrap:4.0.4'
     testImplementation 'com.playtika.testcontainers:embedded-mysql:3.0.0-RC9'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
+    runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5'
+    runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.5'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation 'com.h2database:h2'
+    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.1.0'
+    testImplementation 'org.springframework.security:spring-security-test'
 }

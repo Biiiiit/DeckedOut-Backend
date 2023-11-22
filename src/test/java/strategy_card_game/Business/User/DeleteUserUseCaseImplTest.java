@@ -7,6 +7,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import strategy_card_game.Business.User.Impl.CreateUserUseCaseImpl;
 import strategy_card_game.Business.User.Impl.DeleteUserUseCaseImpl;
 import strategy_card_game.Business.User.Impl.GetUserUseCaseImpl;
@@ -26,6 +27,8 @@ public class DeleteUserUseCaseImplTest {
 
     @Mock
     private UserRepository userRepository;
+    @Mock
+    private PasswordEncoder passwordEncoder;
 
     @InjectMocks
     private GetUserUseCaseImpl getUserUseCase;
@@ -42,8 +45,9 @@ public class DeleteUserUseCaseImplTest {
         // Create a user using createUserUseCase
         CreateUserRequest userRequest = new CreateUserRequest(1L, "User1", "email", "password", "admin");
 
+        when(passwordEncoder.encode(userRequest.getPassword())).thenReturn("encodedPassword");
         // Mock the behavior of userRepository.save to return a UserEntity with an ID.
-        UserEntity savedUser = new UserEntity(1L, "User1", "email", "password", TypeOfUser.admin);
+        UserEntity savedUser = new UserEntity(1L, "User1", "email", "encodedPassword", TypeOfUser.admin);
         when(userRepository.save(Mockito.any(UserEntity.class))).thenReturn(savedUser);
 
         CreateUserResponse createResponse = createUserUseCase.createUser(userRequest);

@@ -1,6 +1,8 @@
 package strategy_card_game.Business.User.Impl;
 
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import strategy_card_game.Business.User.CreateUserUseCase;
 import strategy_card_game.Business.User.Exception.UserAlreadyExistsException;
@@ -14,7 +16,9 @@ import strategy_card_game.Persistance.UserRepository;
 @AllArgsConstructor
 public class CreateUserUseCaseImpl implements CreateUserUseCase {
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
     @Override
+    @Transactional
     public CreateUserResponse createUser(CreateUserRequest request){
         if (userRepository.existsByusername(request.getUsername())){
             throw new UserAlreadyExistsException();
@@ -27,12 +31,13 @@ public class CreateUserUseCaseImpl implements CreateUserUseCase {
                 .build();
     }
     private UserEntity saveNewUser(CreateUserRequest request) {
+        String encodedPassword = passwordEncoder.encode(request.getPassword());
 
         UserEntity newUser = UserEntity.builder()
                 .id(request.getId())
                 .username(request.getUsername())
                 .email(request.getEmail())
-                .password(request.getPassword())
+                .password(encodedPassword)
                 .type(TypeOfUser.fromString(request.getType()))
                 .build();
         return userRepository.save(newUser);

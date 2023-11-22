@@ -6,6 +6,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import strategy_card_game.Business.User.Exception.UserAlreadyExistsException;
 import strategy_card_game.Business.User.Impl.CreateUserUseCaseImpl;
 import strategy_card_game.Domain.User.CreateUserRequest;
@@ -25,6 +26,8 @@ public class CreateUserUseCaseImplTest {
 
     @Mock
     private UserRepository userRepository;
+    @Mock
+    private PasswordEncoder passwordEncoder;
 
     @BeforeEach
     public void setUp() {
@@ -34,8 +37,10 @@ public class CreateUserUseCaseImplTest {
     public void testCreateUserSuccess() {
         CreateUserRequest request = new CreateUserRequest(1L,"Username", "email", "password", "admin");
 
+
+        when(passwordEncoder.encode(request.getPassword())).thenReturn("encodedPassword");
         // Mock the behavior of userRepository.save to return a UserEntity with an ID.
-        UserEntity savedUser = new UserEntity(1L, "Username", "email", "password", TypeOfUser.admin);
+        UserEntity savedUser = new UserEntity(1L, "Username", "email", "encodedPassword", TypeOfUser.admin);
         when(userRepository.save(savedUser)).thenReturn(savedUser);
 
         CreateUserResponse response = createUserUseCase.createUser(request);

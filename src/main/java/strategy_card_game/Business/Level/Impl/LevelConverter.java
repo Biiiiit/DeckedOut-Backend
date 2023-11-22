@@ -10,9 +10,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class LevelConverter {
-    public LevelConverter() {
-    }
-
     public static Level convertToLevel(LevelEntity level) {
         List<Enemy> enemies = level.getEnemies()
                 .stream()
