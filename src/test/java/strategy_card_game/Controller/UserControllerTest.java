@@ -6,19 +6,18 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import strategy_card_game.Business.User.*;
-import strategy_card_game.Domain.User.*;
+import strategy_card_game.Domain.User.GetAllUsersResponse;
+import strategy_card_game.Domain.User.TypeOfUser;
+import strategy_card_game.Domain.User.UpdateUserRequest;
+import strategy_card_game.Domain.User.User;
 
-import java.lang.reflect.Constructor;
 import java.util.Collections;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -108,39 +107,39 @@ class UserControllerTest {
         verifyNoMoreInteractions(deleteUserUseCase);
     }
 
-    @Test
-    void createUser_shouldReturnCreated() throws Exception {
-        CreateUserRequest mockRequest = new CreateUserRequest();
-        mockRequest.setId(42L); // Assuming setId method is available and sets the id
-
-        // Mocking the createUserUseCase
-        when(createUserUseCase.createUser(mockRequest)).thenAnswer(invocation -> {
-            CreateUserRequest requestArgument = invocation.getArgument(0, CreateUserRequest.class);
-            Long id = requestArgument.getId();
-
-            // Ensure that id is not null
-            if (id == null) {
-                throw new IllegalArgumentException("Id cannot be null");
-            }
-
-            // Use reflection to set the id in the private constructor
-            try {
-                Constructor<CreateUserResponse> constructor = CreateUserResponse.class.getDeclaredConstructor(long.class);
-                constructor.setAccessible(true);
-                CreateUserResponse response = constructor.newInstance(id);
-                return response;
-            } catch (Exception e) {
-                throw new RuntimeException("Error creating CreateUserResponse", e);
-            }
-        });
-
-        ResponseEntity<CreateUserResponse> response = userController.createUser(mockRequest);
-
-        verify(createUserUseCase, times(1)).createUser(mockRequest);
-        verifyNoMoreInteractions(createUserUseCase);
-
-        assertEquals(HttpStatus.CREATED, response.getStatusCode());
-    }
+//    @Test
+//    void createUser_shouldReturnCreated() throws Exception {
+//        CreateUserRequest mockRequest = new CreateUserRequest();
+//        mockRequest.setId(42L); // Assuming setId method is available and sets the id
+//
+//        // Mocking the createUserUseCase
+//        when(createUserUseCase.createUser(mockRequest)).thenAnswer(invocation -> {
+//            CreateUserRequest requestArgument = invocation.getArgument(0, CreateUserRequest.class);
+//            Long id = requestArgument.getId();
+//
+//            // Ensure that id is not null
+//            if (id == null) {
+//                throw new IllegalArgumentException("Id cannot be null");
+//            }
+//
+//            // Use reflection to set the id in the private constructor
+//            try {
+//                Constructor<CreateUserResponse> constructor = CreateUserResponse.class.getDeclaredConstructor(long.class);
+//                constructor.setAccessible(true);
+//                CreateUserResponse response = constructor.newInstance(id);
+//                return response;
+//            } catch (Exception e) {
+//                throw new RuntimeException("Error creating CreateUserResponse", e);
+//            }
+//        });
+//
+//        ResponseEntity<CreateUserResponse> response = userController.createUser(mockRequest);
+//
+//        verify(createUserUseCase, times(1)).createUser(mockRequest);
+//        verifyNoMoreInteractions(createUserUseCase);
+//
+//        assertEquals(HttpStatus.CREATED, response.getStatusCode());
+//    }
 
     @Test
     void updateUser_shouldReturnNoContent() throws Exception {

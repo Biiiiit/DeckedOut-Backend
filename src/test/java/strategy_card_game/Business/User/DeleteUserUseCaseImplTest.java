@@ -43,7 +43,7 @@ public class DeleteUserUseCaseImplTest {
     @Test
     public void testDeleteUser() {
         // Create a user using createUserUseCase
-        CreateUserRequest userRequest = new CreateUserRequest(1L, "User1", "email", "password", "admin");
+        CreateUserRequest userRequest = new CreateUserRequest("User1", "email", "password", "admin");
 
         when(passwordEncoder.encode(userRequest.getPassword())).thenReturn("encodedPassword");
         // Mock the behavior of userRepository.save to return a UserEntity with an ID.
