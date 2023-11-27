@@ -34,7 +34,6 @@ public class CreateUserUseCaseImpl implements CreateUserUseCase {
         String encodedPassword = passwordEncoder.encode(request.getPassword());
 
         UserEntity newUser = UserEntity.builder()
-                .id(request.getId())
                 .username(request.getUsername())
                 .email(request.getEmail())
                 .password(encodedPassword)
