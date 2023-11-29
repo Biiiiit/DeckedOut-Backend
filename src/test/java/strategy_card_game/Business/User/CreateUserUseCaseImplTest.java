@@ -48,7 +48,7 @@ public class CreateUserUseCaseImplTest {
     public void testCreateUserFailureUserAlreadyExists() {
         // Mock the behavior of userRepository.findByUsername to return an existing user.
         //UserEntity existingUser = new UserEntity(1L, "ExistingUsername", "email", "password", TypeOfUser.admin);
-        when(userRepository.existsByusername("ExistingUsername")).thenReturn(true);
+        when(userRepository.existsByUsername("ExistingUsername")).thenReturn(true);
 
         CreateUserRequest request = new CreateUserRequest("ExistingUsername", "email", "password", "admin");
 

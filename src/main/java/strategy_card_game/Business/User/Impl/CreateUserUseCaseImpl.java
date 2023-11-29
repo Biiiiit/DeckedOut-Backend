@@ -20,7 +20,7 @@ public class CreateUserUseCaseImpl implements CreateUserUseCase {
     @Override
     @Transactional
     public CreateUserResponse createUser(CreateUserRequest request){
-        if (userRepository.existsByusername(request.getUsername())){
+        if (userRepository.existsByUsername(request.getUsername())){
             throw new UserAlreadyExistsException();
         }
 

@@ -6,7 +6,7 @@ import strategy_card_game.Persistance.Entity.UserEntity;
 import java.util.Optional;
 
 public interface UserRepository extends JpaRepository<UserEntity, Long> {
-    boolean existsByusername(String name);
+    boolean existsByUsername(String name);
 
     Optional<UserEntity> findByUsername(String username);
 }

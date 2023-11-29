@@ -15,4 +15,12 @@ public class User {
     private String email;
     private String password;
     private TypeOfUser type;
+
+    public User(String username, String email, String password, TypeOfUser type) {
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.type = type;
+    }
 }
+

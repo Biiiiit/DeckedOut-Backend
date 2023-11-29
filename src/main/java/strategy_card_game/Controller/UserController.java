@@ -24,10 +24,18 @@ public class UserController {
     private final UpdateUserUseCase updateUserUseCase;
     private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
-    @GetMapping("{id}")
-    public ResponseEntity<User> getUser(@PathVariable(value = "id") final long id) {
-        final Optional<User> userOptional = getUserUseCase.getUser(id);
-        return userOptional.map(user -> ResponseEntity.ok().body(user)).orElseGet(() -> ResponseEntity.notFound().build());
+    @GetMapping("{identifier}")
+    public ResponseEntity<User> getUserByIdOrUsername(@PathVariable(value = "identifier") String identifier) {
+        try {
+            long userId = Long.parseLong(identifier);
+            // If it's a valid long, assume it's an ID
+            Optional<User> userOptional = getUserUseCase.getUser(userId);
+            return userOptional.map(user -> ResponseEntity.ok().body(user)).orElseGet(() -> ResponseEntity.notFound().build());
+        } catch (NumberFormatException e) {
+            // If it's not a valid long, assume it's a username
+            Optional<User> userOptional = getUserUseCase.getUserByUsername(identifier);
+            return userOptional.map(user -> ResponseEntity.ok().body(user)).orElseGet(() -> ResponseEntity.notFound().build());
+        }
     }
     @GetMapping
     public ResponseEntity<GetAllUsersResponse> getAllUsers() {
