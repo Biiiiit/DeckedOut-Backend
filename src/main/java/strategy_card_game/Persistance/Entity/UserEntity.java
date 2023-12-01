@@ -24,12 +24,15 @@ public class UserEntity {
     private String password;
     @Column(name="type")
     private TypeOfUser type;
+    @Column(name="avatar")
+    private Byte[] avatar;
 
-    public UserEntity(Long id, String username, String email, String password, TypeOfUser type) {
+    public UserEntity(Long id, String username, String email, String password, TypeOfUser type, Byte[] avatar) {
         this.id = id;
         this.username = username;
         this.email = email;
         this.password = password;
         this.type = type;
+        this.avatar = avatar;
     }
 }

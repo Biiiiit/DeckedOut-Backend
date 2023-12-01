@@ -2,6 +2,7 @@ package strategy_card_game.Domain.User;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -21,4 +22,6 @@ public class CreateUserRequest {
     private String password;
     @NotBlank
     private String type;
+    @NotNull
+    private Byte[] avatar;
 }

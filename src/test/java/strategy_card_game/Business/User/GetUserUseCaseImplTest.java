@@ -6,7 +6,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import strategy_card_game.Business.User.CreateUserUseCase;
 import strategy_card_game.Business.User.Impl.GetUserUseCaseImpl;
 import strategy_card_game.Domain.User.TypeOfUser;
 import strategy_card_game.Domain.User.User;
@@ -37,8 +36,9 @@ public class GetUserUseCaseImplTest {
 
     @Test
     public void testGetUser() {
+        Byte[] avatar =  new Byte[0];
         // Create a mock UserEntity to be returned by the repository
-        UserEntity userEntity = new UserEntity(1L, "User1", "email", "password", TypeOfUser.admin);
+        UserEntity userEntity = new UserEntity(1L, "User1", "email", "password", TypeOfUser.admin, avatar);
 
         // Mock the behavior of userRepository.findById to return the UserEntity when called with 1L
         when(userRepository.findById(1L)).thenReturn(Optional.of(userEntity));
@@ -53,6 +53,7 @@ public class GetUserUseCaseImplTest {
         assertEquals("email", user.getEmail());
         assertEquals("password", user.getPassword());
         assertEquals(TypeOfUser.admin, user.getType());
+        assertEquals(avatar, user.getAvatar());
     }
 
     @Test

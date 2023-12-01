@@ -3,5 +3,6 @@ CREATE TABLE users{
     name varchar(MAX),
     email varchar(MAX),
     password varchar(MAX),
-    type varchar(MAX)
+    type varchar(MAX),
+    avatar varbinary(MAX)
     };

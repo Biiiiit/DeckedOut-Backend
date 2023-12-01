@@ -21,7 +21,7 @@ public class GetUserUseCaseImpl implements GetUserUseCase {
     @Override
     public Optional<User> getUserByUsername(String username) {
         return userRepository.findByUsername(username).map(userEntity -> {
-            return new User(userEntity.getUsername(), userEntity.getEmail(), userEntity.getPassword(), userEntity.getType());
+            return new User(userEntity.getUsername(), userEntity.getEmail(), userEntity.getPassword(), userEntity.getType(), userEntity.getAvatar());
         });
     }
 

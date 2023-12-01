@@ -30,6 +30,7 @@ public class UpdateUserUseCaseImpl implements UpdateUserUseCase {
         user.setEmail(request.getEmail());
         user.setPassword(request.getPassword());
         user.setType(request.getType());
+        user.setAvatar(request.getAvatar());
 
         userRepository.save(user);
     }

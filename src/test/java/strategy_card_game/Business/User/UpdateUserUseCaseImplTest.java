@@ -7,16 +7,17 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import strategy_card_game.Business.User.CreateUserUseCase;
 import strategy_card_game.Business.User.Exception.InvalidUserException;
 import strategy_card_game.Business.User.Impl.UpdateUserUseCaseImpl;
-import strategy_card_game.Domain.User.*;
+import strategy_card_game.Domain.User.TypeOfUser;
+import strategy_card_game.Domain.User.UpdateUserRequest;
 import strategy_card_game.Persistance.Entity.UserEntity;
 import strategy_card_game.Persistance.UserRepository;
 
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -38,14 +39,15 @@ public class UpdateUserUseCaseImplTest {
 
     @Test
     public void testUpdateUser() {
+        Byte[] avatar =  new Byte[0];
         // Create a mock UserEntity to be returned by the repository
-        UserEntity userEntity = new UserEntity(1L, "User1", "email", "password", TypeOfUser.admin);
+        UserEntity userEntity = new UserEntity(1L, "User1", "email", "password", TypeOfUser.admin, avatar);
 
         // Mock the behavior of userRepository.findById to return the UserEntity when called with 1L
         when(userRepository.findById(1L)).thenReturn(Optional.of(userEntity));
 
         // Create an UpdateUserRequest
-        UpdateUserRequest updateRequest = new UpdateUserRequest(1L, "UpdatedUser", "email", "password", TypeOfUser.normal);
+        UpdateUserRequest updateRequest = new UpdateUserRequest(1L, "UpdatedUser", "email", "password", TypeOfUser.normal, avatar);
 
         // Call the updateUser method
         updateUserUseCase.updateUser(updateRequest);
@@ -56,12 +58,14 @@ public class UpdateUserUseCaseImplTest {
         assertEquals("email", userEntity.getEmail());
         assertEquals("password", userEntity.getPassword());
         assertEquals(TypeOfUser.normal, userEntity.getType());
+        assertEquals(avatar, userEntity.getAvatar());
     }
 
     @Test
     public void testUpdateInvalidUser() {
+        Byte[] avatar =  new Byte[0];
         // Create an UpdateUserRequest for a non-existent user
-        UpdateUserRequest updateRequest = new UpdateUserRequest(999L, "UpdatedUser", "email", "password", TypeOfUser.normal);
+        UpdateUserRequest updateRequest = new UpdateUserRequest(999L, "UpdatedUser", "email", "password", TypeOfUser.normal, avatar);
 
         // Mock the behavior of userRepository.findById to return an empty Optional
         when(userRepository.findById(999L)).thenReturn(Optional.empty());

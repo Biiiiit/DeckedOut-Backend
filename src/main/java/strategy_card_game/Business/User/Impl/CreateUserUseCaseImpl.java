@@ -38,6 +38,7 @@ public class CreateUserUseCaseImpl implements CreateUserUseCase {
                 .email(request.getEmail())
                 .password(encodedPassword)
                 .type(TypeOfUser.fromString(request.getType()))
+                .avatar(request.getAvatar())
                 .build();
         return userRepository.save(newUser);
     }

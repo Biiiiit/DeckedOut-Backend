@@ -20,4 +20,6 @@ public class GetAllUsersRequest {
     private String password;
     @NotNull
     private TypeOfUser type;
+    @NotNull
+    private Byte[] avatar;
 }
