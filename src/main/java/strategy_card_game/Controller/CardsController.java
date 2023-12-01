@@ -1,5 +1,6 @@
 package strategy_card_game.Controller;
 
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -21,6 +22,7 @@ public class CardsController {
     private final UpdateCardUseCase updateCardUseCase;
 
     @GetMapping("{id}")
+    @RolesAllowed({"admin"})
     public ResponseEntity<Card> getCard(@PathVariable(value = "id") final long id) {
         final Optional<Card> cardOptional = getCardUseCase.getCard(id);
         if (cardOptional.isEmpty()) {
@@ -29,24 +31,28 @@ public class CardsController {
         return ResponseEntity.ok().body(cardOptional.get());
     }
     @GetMapping
+    @RolesAllowed({"admin"})
     public ResponseEntity<GetAllCardsResponse> getAllCards() {
         GetAllCardsRequest request = GetAllCardsRequest.builder().build();
         GetAllCardsResponse response = getCardsUseCase.getCards(request);
         return ResponseEntity.ok(response);
     }
     @DeleteMapping("{cardId}")
+    @RolesAllowed({"admin"})
     public ResponseEntity<Void> deleteCard(@PathVariable int cardId) {
         deleteCardUseCase.deleteCard(cardId);
         return ResponseEntity.noContent().build();
     }
 
     @PostMapping()
+    @RolesAllowed({"admin"})
     public ResponseEntity<CreateCardResponse> createCard(@RequestBody @Valid CreateCardRequest request) {
         CreateCardResponse response = createCardUseCase.createCard(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @PutMapping("{id}")
+    @RolesAllowed({"admin"})
     public ResponseEntity<Void> updateCard(@PathVariable("id") long id,
                                               @RequestBody @Valid UpdateCardRequest request) {
         request.setId(id);

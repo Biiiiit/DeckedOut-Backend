@@ -1,5 +1,6 @@
 package strategy_card_game.Controller;
 
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -21,6 +22,7 @@ public class EnemyController {
     private final UpdateEnemyUseCase updateEnemyUseCase;
 
     @GetMapping("{id}")
+    @RolesAllowed({"admin"})
     public ResponseEntity<Enemy> getEnemy(@PathVariable(value = "id") final long id) {
         final Optional<Enemy> enemyOptional = getEnemyUseCase.getEnemy(id);
         if (enemyOptional.isEmpty()) {
@@ -29,24 +31,28 @@ public class EnemyController {
         return ResponseEntity.ok().body(enemyOptional.get());
     }
     @GetMapping
+    @RolesAllowed({"admin"})
     public ResponseEntity<GetAllEnemyResponse> getAllEnemies() {
         GetAllEnemyRequest request = GetAllEnemyRequest.builder().build();
         GetAllEnemyResponse response = getEnemiesUseCase.getEnemies(request);
         return ResponseEntity.ok(response);
     }
     @DeleteMapping("{enemyId}")
+    @RolesAllowed({"admin"})
     public ResponseEntity<Void> deleteEnemy(@PathVariable int enemyId) {
         deleteEnemyUseCase.deleteEnemy(enemyId);
         return ResponseEntity.noContent().build();
     }
 
     @PostMapping()
+    @RolesAllowed({"admin"})
     public ResponseEntity<CreateEnemyResponse> createEnemy(@RequestBody @Valid CreateEnemyRequest request) {
         CreateEnemyResponse response = createEnemyUseCase.createEnemy(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @PutMapping("{id}")
+    @RolesAllowed({"admin"})
     public ResponseEntity<Void> updateEnemy(@PathVariable("id") long id,
                                                 @RequestBody @Valid UpdateEnemyRequest request) {
         request.setId(id);

@@ -1,5 +1,6 @@
 package strategy_card_game.Controller;
 
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -25,6 +26,7 @@ public class UserController {
     private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
     @GetMapping("{identifier}")
+    @RolesAllowed({"normal", "admin"})
     public ResponseEntity<User> getUserByIdOrUsername(@PathVariable(value = "identifier") String identifier) {
         try {
             long userId = Long.parseLong(identifier);
