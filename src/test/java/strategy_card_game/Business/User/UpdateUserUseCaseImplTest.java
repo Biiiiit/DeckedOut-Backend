@@ -39,7 +39,7 @@ public class UpdateUserUseCaseImplTest {
 
     @Test
     public void testUpdateUser() {
-        Byte[] avatar =  new Byte[0];
+        byte[] avatar =  new byte[0];
         // Create a mock UserEntity to be returned by the repository
         UserEntity userEntity = new UserEntity(1L, "User1", "email", "password", TypeOfUser.admin, avatar);
 
@@ -63,7 +63,7 @@ public class UpdateUserUseCaseImplTest {
 
     @Test
     public void testUpdateInvalidUser() {
-        Byte[] avatar =  new Byte[0];
+        byte[] avatar =  new byte[0];
         // Create an UpdateUserRequest for a non-existent user
         UpdateUserRequest updateRequest = new UpdateUserRequest(999L, "UpdatedUser", "email", "password", TypeOfUser.normal, avatar);
 

@@ -23,5 +23,5 @@ public class UpdateUserRequest {
     @NotNull
     private TypeOfUser type;
     @NotNull
-    private Byte[] avatar;
+    private byte[] avatar;
 }

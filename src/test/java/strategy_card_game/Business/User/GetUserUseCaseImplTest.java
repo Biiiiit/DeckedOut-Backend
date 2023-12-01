@@ -36,7 +36,7 @@ public class GetUserUseCaseImplTest {
 
     @Test
     public void testGetUser() {
-        Byte[] avatar =  new Byte[0];
+        byte[] avatar =  new byte[0];
         // Create a mock UserEntity to be returned by the repository
         UserEntity userEntity = new UserEntity(1L, "User1", "email", "password", TypeOfUser.admin, avatar);
 

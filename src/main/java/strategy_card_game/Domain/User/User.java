@@ -15,9 +15,9 @@ public class User {
     private String email;
     private String password;
     private TypeOfUser type;
-    private Byte[] avatar;
+    private byte[] avatar;
 
-    public User(String username, String email, String password, TypeOfUser type, Byte[] avatar) {
+    public User(String username, String email, String password, TypeOfUser type, byte[] avatar) {
         this.username = username;
         this.email = email;
         this.password = password;
