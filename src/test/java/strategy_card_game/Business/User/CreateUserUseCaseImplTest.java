@@ -50,7 +50,7 @@ public class CreateUserUseCaseImplTest {
         //UserEntity existingUser = new UserEntity(1L, "ExistingUsername", "email", "password", TypeOfUser.admin);
         when(userRepository.existsByUsername("ExistingUsername")).thenReturn(true);
 
-        CreateUserRequest request = new CreateUserRequest("ExistingUsername", "email", "password", "admin",  new Byte[0]);
+        CreateUserRequest request = new CreateUserRequest("ExistingUsername", "email", "password", "admin",  new byte[0]);
 
         // Expect a UserAlreadyExistsException
         assertThrows(UserAlreadyExistsException.class, () -> createUserUseCase.createUser(request));
