@@ -1,6 +1,5 @@
 package strategy_card_game.Controller;
 
-import jakarta.annotation.security.RolesAllowed;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -22,7 +21,6 @@ public class LevelController {
     private final UpdateLevelUseCase updateLevelUseCase;
 
     @GetMapping("{id}")
-    @RolesAllowed({"admin"})
     public ResponseEntity<Level> getLevel(@PathVariable(value = "id") final long id) {
         final Optional<Level> levelOptional = getLevelUseCase.getLevel(id);
         if (levelOptional.isEmpty()) {
@@ -31,28 +29,24 @@ public class LevelController {
         return ResponseEntity.ok().body(levelOptional.get());
     }
     @GetMapping
-    @RolesAllowed({"admin"})
     public ResponseEntity<GetAllLevelsResponse> getAllLevels() {
         GetAllLevelsRequest request = GetAllLevelsRequest.builder().build();
         GetAllLevelsResponse response = getLevelsUseCase.getLevels(request);
         return ResponseEntity.ok(response);
     }
     @DeleteMapping("{levelId}")
-    @RolesAllowed({"admin"})
     public ResponseEntity<Void> deleteLevel(@PathVariable int levelId) {
         deleteLevelUseCase.deleteLevel(levelId);
         return ResponseEntity.noContent().build();
     }
 
     @PostMapping()
-    @RolesAllowed({"admin"})
     public ResponseEntity<CreateLevelResponse> createLevel(@RequestBody @Valid CreateLevelRequest request) {
         CreateLevelResponse response = createLevelUseCase.createLevel(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @PutMapping("{id}")
-    @RolesAllowed({"admin"})
     public ResponseEntity<Void> updateLevel(@PathVariable("id") long id,
                                                 @RequestBody @Valid UpdateLevelRequest request) {
         request.setId(id);

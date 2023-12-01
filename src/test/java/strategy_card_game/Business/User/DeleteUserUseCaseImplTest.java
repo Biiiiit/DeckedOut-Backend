@@ -43,11 +43,11 @@ public class DeleteUserUseCaseImplTest {
     @Test
     public void testDeleteUser() {
         // Create a user using createUserUseCase
-        CreateUserRequest userRequest = new CreateUserRequest("User1", "email", "password", "admin");
+        CreateUserRequest userRequest = new CreateUserRequest("User1", "email", "password", "admin", new byte[0]);
 
         when(passwordEncoder.encode(userRequest.getPassword())).thenReturn("encodedPassword");
         // Mock the behavior of userRepository.save to return a UserEntity with an ID.
-        UserEntity savedUser = new UserEntity(1L, "User1", "email", "encodedPassword", TypeOfUser.admin);
+        UserEntity savedUser = new UserEntity(1L, "User1", "email", "encodedPassword", TypeOfUser.admin, new byte[0]);
         when(userRepository.save(Mockito.any(UserEntity.class))).thenReturn(savedUser);
 
         CreateUserResponse createResponse = createUserUseCase.createUser(userRequest);
