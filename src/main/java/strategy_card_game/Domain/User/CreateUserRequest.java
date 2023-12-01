@@ -23,5 +23,5 @@ public class CreateUserRequest {
     @NotBlank
     private String type;
     @NotNull
-    private Byte[] avatar;
+    private byte[] avatar;
 }

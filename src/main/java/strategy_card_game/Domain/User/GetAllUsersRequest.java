@@ -21,5 +21,5 @@ public class GetAllUsersRequest {
     @NotNull
     private TypeOfUser type;
     @NotNull
-    private Byte[] avatar;
+    private byte[] avatar;
 }
