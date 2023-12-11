@@ -31,14 +31,14 @@ public class CreateUserUseCaseImpl implements CreateUserUseCase {
                 .build();
     }
     private UserEntity saveNewUser(CreateUserRequest request) {
-        String encodedPassword = passwordEncoder.encode(request.getPassword());
+        String encodedPassword = passwordEncoder.encode(request.getPassword().trim());
 
         UserEntity newUser = UserEntity.builder()
                 .username(request.getUsername())
                 .email(request.getEmail())
                 .password(encodedPassword)
                 .type(TypeOfUser.fromString(request.getType()))
-                .avatar(request.getAvatar())
+                .avatar((request.getAvatar()))
                 .build();
         return userRepository.save(newUser);
     }

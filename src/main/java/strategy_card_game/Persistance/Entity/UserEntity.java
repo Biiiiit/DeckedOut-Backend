@@ -25,9 +25,9 @@ public class UserEntity {
     @Column(name="type")
     private TypeOfUser type;
     @Column(name="avatar")
-    private byte[] avatar;
+    private String avatar;
 
-    public UserEntity(Long id, String username, String email, String password, TypeOfUser type, byte[] avatar) {
+    public UserEntity(Long id, String username, String email, String password, TypeOfUser type, String avatar) {
         this.id = id;
         this.username = username;
         this.email = email;
@@ -36,3 +36,4 @@ public class UserEntity {
         this.avatar = avatar;
     }
 }
+

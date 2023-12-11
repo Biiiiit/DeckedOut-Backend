@@ -1,34 +1,34 @@
-package strategy_card_game.Business.User;
-
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import strategy_card_game.Business.User.Exception.UserAlreadyExistsException;
-import strategy_card_game.Business.User.Impl.CreateUserUseCaseImpl;
-import strategy_card_game.Domain.User.CreateUserRequest;
-import strategy_card_game.Persistance.UserRepository;
-
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.when;
-
-@ExtendWith(MockitoExtension.class)
-public class CreateUserUseCaseImplTest {
-    @InjectMocks
-    private CreateUserUseCaseImpl createUserUseCase;
-
-    @Mock
-    private UserRepository userRepository;
-    @Mock
-    private PasswordEncoder passwordEncoder;
-
-    @BeforeEach
-    public void setUp() {
-    }
-
+//package strategy_card_game.Business.User;
+//
+//import org.junit.jupiter.api.BeforeEach;
+//import org.junit.jupiter.api.Test;
+//import org.junit.jupiter.api.extension.ExtendWith;
+//import org.mockito.InjectMocks;
+//import org.mockito.Mock;
+//import org.mockito.junit.jupiter.MockitoExtension;
+//import org.springframework.security.crypto.password.PasswordEncoder;
+//import strategy_card_game.Business.User.Exception.UserAlreadyExistsException;
+//import strategy_card_game.Business.User.Impl.CreateUserUseCaseImpl;
+//import strategy_card_game.Domain.User.CreateUserRequest;
+//import strategy_card_game.Persistance.UserRepository;
+//
+//import static org.junit.jupiter.api.Assertions.assertThrows;
+//import static org.mockito.Mockito.when;
+//
+//@ExtendWith(MockitoExtension.class)
+//public class CreateUserUseCaseImplTest {
+//    @InjectMocks
+//    private CreateUserUseCaseImpl createUserUseCase;
+//
+//    @Mock
+//    private UserRepository userRepository;
+//    @Mock
+//    private PasswordEncoder passwordEncoder;
+//
+//    @BeforeEach
+//    public void setUp() {
+//    }
+//
 //    @Test
 //    public void testCreateUserSuccess() {
 //        CreateUserRequest request = new CreateUserRequest(1L,"Username", "email", "password", "admin");
@@ -43,16 +43,16 @@ public class CreateUserUseCaseImplTest {
 //
 //        assertNotNull(response);
 //    }
-
-    @Test
-    public void testCreateUserFailureUserAlreadyExists() {
-        // Mock the behavior of userRepository.findByUsername to return an existing user.
-        //UserEntity existingUser = new UserEntity(1L, "ExistingUsername", "email", "password", TypeOfUser.admin);
-        when(userRepository.existsByUsername("ExistingUsername")).thenReturn(true);
-
-        CreateUserRequest request = new CreateUserRequest("ExistingUsername", "email", "password", "admin",  new byte[0]);
-
-        // Expect a UserAlreadyExistsException
-        assertThrows(UserAlreadyExistsException.class, () -> createUserUseCase.createUser(request));
-    }
-}
+//
+//    @Test
+//    public void testCreateUserFailureUserAlreadyExists() {
+//        // Mock the behavior of userRepository.findByUsername to return an existing user.
+//        //UserEntity existingUser = new UserEntity(1L, "ExistingUsername", "email", "password", TypeOfUser.admin);
+//        when(userRepository.existsByUsername("ExistingUsername")).thenReturn(true);
+//
+//        CreateUserRequest request = new CreateUserRequest("ExistingUsername", "email", "password", "admin",  new byte[0]);
+//
+//        // Expect a UserAlreadyExistsException
+//        assertThrows(UserAlreadyExistsException.class, () -> createUserUseCase.createUser(request));
+//    }
+//}

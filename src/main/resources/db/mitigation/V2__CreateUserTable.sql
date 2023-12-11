@@ -4,5 +4,5 @@ CREATE TABLE users{
     email varchar(MAX),
     password varchar(MAX),
     type varchar(MAX),
-    avatar varbinary(MAX)
+    avatar varchar(MAX)
     };

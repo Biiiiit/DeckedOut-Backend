@@ -24,5 +24,4 @@ public class GetUserUseCaseImpl implements GetUserUseCase {
             return new User(userEntity.getUsername(), userEntity.getEmail(), userEntity.getPassword(), userEntity.getType(), userEntity.getAvatar());
         });
     }
-
 }

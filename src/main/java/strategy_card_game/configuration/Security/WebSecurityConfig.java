@@ -38,6 +38,7 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests(registry ->
                         registry.requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                                 .requestMatchers(HttpMethod.POST, "/users", "/login").permitAll()
+                                .requestMatchers(HttpMethod.PUT, "/users/{id}").permitAll()
                                 .requestMatchers(HttpMethod.GET, "/users/{name}").permitAll()
                                 .requestMatchers(SWAGGER_UI_RESOURCES).permitAll()
                                 .anyRequest().authenticated()
@@ -52,10 +53,12 @@ public class WebSecurityConfig {
         return new WebMvcConfigurer() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/**").allowedOrigins("http://localhost:5173");
+                registry.addMapping("/**")
+                        .allowedOrigins("http://localhost:5173")
+                        .allowedMethods("*")
+                        .allowedHeaders("*")
+                        .allowCredentials(true); // Allow credentials
             }
         };
     }
-
-
 }
