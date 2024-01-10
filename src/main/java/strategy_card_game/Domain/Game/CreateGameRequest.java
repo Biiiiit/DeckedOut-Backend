@@ -11,6 +11,7 @@ import strategy_card_game.Domain.Card.Card;
 import strategy_card_game.Domain.Enemy.Enemy;
 import strategy_card_game.Domain.Level.Level;
 import strategy_card_game.Domain.Playable_Character.PlayableCharacter;
+import strategy_card_game.Domain.User.User;
 
 import java.util.List;
 
@@ -19,24 +20,16 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CreateGameRequest {
-    @NotNull
-    private long id;
     @NotBlank
     private String name;
     @NotBlank
     private String description;
-    @NotNull
     private byte[] icon;
-    @NotNull
     private byte [] banner;
-    @NotBlank
     private List<Area> gameAreas;
-    @NotBlank
     private List<Card> gameCards;
-    @NotBlank
     private List<Enemy> gameEnemies;
-    @NotBlank
     private List<Level> gameLevels;
-    @NotBlank
     private List<PlayableCharacter> gameCharacters;
+    private Long developer;
 }

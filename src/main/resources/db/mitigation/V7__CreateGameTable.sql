@@ -4,7 +4,9 @@ CREATE TABLE games (
                        description TEXT,
                        icon BLOB,
                        banner BLOB,
-                       PRIMARY KEY (id)
+                       user_id INT,  -- Foreign key column
+                       PRIMARY KEY (id),
+                       FOREIGN KEY (user_id) REFERENCES users(id)
 );
 
 CREATE TABLE game_areas (

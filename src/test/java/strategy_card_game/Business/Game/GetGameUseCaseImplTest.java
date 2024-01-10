@@ -9,6 +9,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import strategy_card_game.Business.Game.Impl.CreateGameUseCaseImpl;
 import strategy_card_game.Business.Game.Impl.GetGameUseCaseImpl;
 import strategy_card_game.Domain.Game.Game;
+import strategy_card_game.Domain.User.User;
 import strategy_card_game.Persistance.Entity.*;
 import strategy_card_game.Persistance.GameRepository;
 
@@ -44,7 +45,9 @@ public class GetGameUseCaseImplTest {
         List<CardEntity> cards = new ArrayList<>();
         List<CharacterEntity> characters = new ArrayList<>();
         List<LevelEntity> levels = new ArrayList<>();
-        GameEntity gameEntity = new GameEntity(1L, "GameName", "Description", Image, Image, areas, cards, enemies, levels, characters);
+        User developer = new User();
+        UserEntity developer2 = new UserEntity();
+        GameEntity gameEntity = new GameEntity(1L, "GameName", "Description", Image, Image, areas, cards, enemies, levels, characters, developer2);
 
         when(gameRepository.findById(1L)).thenReturn(Optional.of(gameEntity));
 

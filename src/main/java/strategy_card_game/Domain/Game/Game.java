@@ -9,6 +9,7 @@ import strategy_card_game.Domain.Card.Card;
 import strategy_card_game.Domain.Enemy.Enemy;
 import strategy_card_game.Domain.Level.Level;
 import strategy_card_game.Domain.Playable_Character.PlayableCharacter;
+import strategy_card_game.Domain.User.User;
 
 import java.util.List;
 
@@ -27,4 +28,5 @@ public class Game {
     private List<Enemy> gameEnemies;
     private List<Level> gameLevels;
     private List<PlayableCharacter> gameCharacters;
+    private User developer;
 }

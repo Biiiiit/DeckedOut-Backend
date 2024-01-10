@@ -13,7 +13,9 @@ import strategy_card_game.Domain.Game.CreateGameRequest;
 import strategy_card_game.Domain.Game.CreateGameResponse;
 import strategy_card_game.Persistance.Entity.*;
 import strategy_card_game.Persistance.GameRepository;
+import strategy_card_game.Persistance.UserRepository;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,6 +23,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class CreateGameUseCaseImpl implements CreateGameUseCase {
     private final GameRepository gameRepository;
+    private final UserRepository userRepository;
 
     @Override
     public CreateGameResponse createGame(CreateGameRequest request){
@@ -35,33 +38,27 @@ public class CreateGameUseCaseImpl implements CreateGameUseCase {
                 .build();
     }
     private GameEntity saveNewGame(CreateGameRequest request) {
-        List<CardEntity> cards = request.getGameCards()
-                .stream()
-                .map(CardConverter::convertToCardEntity)
-                .collect(Collectors.toList());
+        List<CardEntity> cards = (request.getGameCards() != null)
+                ? request.getGameCards().stream().map(CardConverter::convertToCardEntity).collect(Collectors.toList())
+                : Collections.emptyList();
 
-        List<AreaEntity> areas = request.getGameAreas()
-                .stream()
-                .map(AreaConverter::convertToAreaEntity)
-                .collect(Collectors.toList());
+        List<AreaEntity> areas = (request.getGameAreas() != null)
+                ? request.getGameAreas().stream().map(AreaConverter::convertToAreaEntity).collect(Collectors.toList())
+                : Collections.emptyList();
 
-        List<EnemyEntity> enemies = request.getGameEnemies()
-                .stream()
-                .map(EnemyConverter::convertToEnemyEntity)
-                .collect(Collectors.toList());
+        List<EnemyEntity> enemies = (request.getGameEnemies() != null)
+                ? request.getGameEnemies().stream().map(EnemyConverter::convertToEnemyEntity).collect(Collectors.toList())
+                : Collections.emptyList();
 
-        List<LevelEntity> levels = request.getGameLevels()
-                .stream()
-                .map(LevelConverter::convertToLevelEntity)
-                .collect(Collectors.toList());
+        List<LevelEntity> levels = (request.getGameLevels() != null)
+                ? request.getGameLevels().stream().map(LevelConverter::convertToLevelEntity).collect(Collectors.toList())
+                : Collections.emptyList();
 
-        List<CharacterEntity> characters = request.getGameCharacters()
-                .stream()
-                .map(CharacterConverter::convertToCharacterEntity)
-                .collect(Collectors.toList());
+        List<CharacterEntity> characters = (request.getGameCharacters() != null)
+                ? request.getGameCharacters().stream().map(CharacterConverter::convertToCharacterEntity).collect(Collectors.toList())
+                : Collections.emptyList();
 
         GameEntity newGame = GameEntity.builder()
-                .id(request.getId())
                 .name(request.getName())
                 .description(request.getDescription())
                 .icon(request.getIcon())
@@ -71,7 +68,9 @@ public class CreateGameUseCaseImpl implements CreateGameUseCase {
                 .gameEnemies(enemies)
                 .gameLevels(levels)
                 .gameCharacters(characters)
+                .developer(userRepository.findById(request.getDeveloper()).get())
                 .build();
+
         return gameRepository.save(newGame);
     }
 }

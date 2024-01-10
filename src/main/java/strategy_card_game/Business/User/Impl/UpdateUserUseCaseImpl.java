@@ -57,9 +57,11 @@ public class UpdateUserUseCaseImpl implements UpdateUserUseCase {
                     }
                 }
             }
-
-            // Check if the provided password matches the old password
-            if (isPasswordValid(request.getPassword(), user.getPassword())) {
+            logger.info("Request password {}", request.getPassword());
+            logger.info("User password: {}", user.getPassword());
+            if (request.getPassword().trim().equals(user.getPassword().trim())) {
+                updateFields(request, user);
+            } else if (isPasswordValid(request.getPassword(), user.getPassword())) {
                 // If valid, update the user fields including the password
                 updateFields(request, user);
             } else {

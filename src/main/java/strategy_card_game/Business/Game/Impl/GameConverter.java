@@ -5,6 +5,7 @@ import strategy_card_game.Business.Card.impl.CardConverter;
 import strategy_card_game.Business.Enemy.Impl.EnemyConverter;
 import strategy_card_game.Business.Level.Impl.LevelConverter;
 import strategy_card_game.Business.Playable_Character.Impl.CharacterConverter;
+import strategy_card_game.Business.User.Impl.UserConverter;
 import strategy_card_game.Domain.Area.Area;
 import strategy_card_game.Domain.Card.Card;
 import strategy_card_game.Domain.Enemy.Enemy;
@@ -57,6 +58,7 @@ public class GameConverter {
                 .gameEnemies(enemies)
                 .gameLevels(levels)
                 .gameCharacters(characters)
+                .developer(UserConverter.convertToUser(game.getDeveloper()))
                 .build();
     }
 }

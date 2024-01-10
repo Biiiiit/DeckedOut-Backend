@@ -42,7 +42,7 @@ public class AccessTokenEncoderDecoderImpl implements AccessTokenEncoder, Access
         }
 
         Instant now = Instant.now();
-        Instant accessTokenExpiration = now.plus(30, ChronoUnit.MINUTES);
+        Instant accessTokenExpiration = now.plus(7, ChronoUnit.DAYS);
 
         return Jwts.builder()
                 .setSubject(accessToken.getSubject())

@@ -6,7 +6,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import strategy_card_game.Domain.User.TypeOfUser;
 
-@Builder
+import java.util.List;
+
+ @Builder
 @Data
 @Entity
 @Table(name="users")
@@ -26,14 +28,18 @@ public class UserEntity {
     private TypeOfUser type;
     @Column(name="avatar")
     private String avatar;
+    @OneToMany(mappedBy = "developer", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<GameEntity> developedGames;
 
-    public UserEntity(Long id, String username, String email, String password, TypeOfUser type, String avatar) {
+
+    public UserEntity(Long id, String username, String email, String password, TypeOfUser type, String avatar, List<GameEntity> developedGames) {
         this.id = id;
         this.username = username;
         this.email = email;
         this.password = password;
         this.type = type;
         this.avatar = avatar;
+        this.developedGames = developedGames;
     }
 }
 

@@ -40,6 +40,7 @@ public class WebSecurityConfig {
                                 .requestMatchers(HttpMethod.POST, "/users", "/login").permitAll()
                                 .requestMatchers(HttpMethod.PUT, "/users/{id}").permitAll()
                                 .requestMatchers(HttpMethod.GET, "/users/{name}").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/games/{id}").permitAll()
                                 .requestMatchers(SWAGGER_UI_RESOURCES).permitAll()
                                 .anyRequest().authenticated()
                 )

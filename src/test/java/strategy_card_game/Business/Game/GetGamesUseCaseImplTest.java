@@ -9,7 +9,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import strategy_card_game.Business.Game.Impl.GetGamesUseCaseImpl;
 import strategy_card_game.Domain.Game.GetAllGamesRequest;
 import strategy_card_game.Domain.Game.Game;
+import strategy_card_game.Domain.User.User;
 import strategy_card_game.Persistance.Entity.GameEntity;
+import strategy_card_game.Persistance.Entity.UserEntity;
 import strategy_card_game.Persistance.GameRepository;
 
 import java.util.ArrayList;
@@ -33,10 +35,12 @@ public class GetGamesUseCaseImplTest {
 
     @Test
     public void testGetAllCards() {
+        User developer = new User();
+        UserEntity developer2 = new UserEntity();
         byte[] Image = new byte[0];
 
-        GameEntity gameEntity1 = new GameEntity(1L, "Game1", "Description", new byte[0], new byte[0], new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
-        GameEntity gameEntity2 = new GameEntity(2L, "Game2", "Description", new byte[0], new byte[0], new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
+        GameEntity gameEntity1 = new GameEntity(1L, "Game1", "Description", new byte[0], new byte[0], new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), developer2);
+        GameEntity gameEntity2 = new GameEntity(2L, "Game2", "Description", new byte[0], new byte[0], new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), developer2);
 
         List<GameEntity> gameList = new ArrayList<>();
         gameList.add(gameEntity1);

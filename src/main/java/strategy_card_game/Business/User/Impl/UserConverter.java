@@ -7,8 +7,17 @@ public class UserConverter {
     private UserConverter() {
     }
 
-    public static User convert(UserEntity user) {
+    public static User convertToUser(UserEntity user) {
         return User.builder()
+                .id(user.getId())
+                .username(user.getUsername())
+                .email(user.getEmail())
+                .password(user.getPassword())
+                .type(user.getType())
+                .build();
+    }
+    public static UserEntity convertToUserEntity(User user) {
+        return UserEntity.builder()
                 .id(user.getId())
                 .username(user.getUsername())
                 .email(user.getEmail())

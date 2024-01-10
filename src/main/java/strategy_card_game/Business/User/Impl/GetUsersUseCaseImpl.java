@@ -25,7 +25,7 @@ public class GetUsersUseCaseImpl implements GetUsersUseCase {
         final GetAllUsersResponse response = new GetAllUsersResponse();
         List<User> users = results
                 .stream()
-                .map(UserConverter::convert)
+                .map(UserConverter::convertToUser)
                 .toList();
         response.setUsers(users);
 

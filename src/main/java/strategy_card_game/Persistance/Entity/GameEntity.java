@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import strategy_card_game.Domain.User.User;
 
 import java.util.List;
 
@@ -47,8 +48,11 @@ public class GameEntity {
     @OneToMany(fetch = FetchType.EAGER)
     @JoinColumn(name="characterID")
     private List<CharacterEntity> gameCharacters;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id")
+    private UserEntity developer;
 
-    public GameEntity(long id, String name, String description, byte[] icon, byte[] banner, List<AreaEntity> gameAreas, List<CardEntity> gameCards, List<EnemyEntity> gameEnemies, List<LevelEntity> gameLevels, List<CharacterEntity> gameCharacters) {
+    public GameEntity(long id, String name, String description, byte[] icon, byte[] banner, List<AreaEntity> gameAreas, List<CardEntity> gameCards, List<EnemyEntity> gameEnemies, List<LevelEntity> gameLevels, List<CharacterEntity> gameCharacters, UserEntity developer) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -59,5 +63,6 @@ public class GameEntity {
         this.gameEnemies = gameEnemies;
         this.gameLevels = gameLevels;
         this.gameCharacters = gameCharacters;
+        this.developer = developer;
     }
 }

@@ -21,8 +21,10 @@ import strategy_card_game.Domain.Game.Game;
 import strategy_card_game.Domain.Game.UpdateGameRequest;
 import strategy_card_game.Domain.Level.Level;
 import strategy_card_game.Domain.Playable_Character.PlayableCharacter;
+import strategy_card_game.Domain.User.User;
 import strategy_card_game.Persistance.Entity.*;
 import strategy_card_game.Persistance.GameRepository;
+import strategy_card_game.Persistance.UserRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,11 +44,13 @@ public class UpdateGameUseCaseImplTest {
 
     @Mock
     private GameRepository gameRepository;
+    @Mock
+    private UserRepository userRepository;
 
     @BeforeEach
     public void setUp() {
         // Initialize the mocks and inject them into the use cases
-        createGameUseCase = new CreateGameUseCaseImpl(gameRepository);
+        createGameUseCase = new CreateGameUseCaseImpl(gameRepository, userRepository);
         updateGameUseCase = new UpdateGameUseCaseImpl(gameRepository);
         getGameUseCase = new GetGameUseCaseImpl(gameRepository);
     }
@@ -64,9 +68,11 @@ public class UpdateGameUseCaseImplTest {
         List<Card> cards2 = new ArrayList<>();
         List<PlayableCharacter> characters2 = new ArrayList<>();
         List<Level> levels2 = new ArrayList<>();
-        GameEntity game = new GameEntity(1L, "GameName", "Description", Image, Image, areas, cards, enemies, levels, characters);
+        User developer = new User();
+        UserEntity developer2 = new UserEntity();
+        GameEntity game = new GameEntity(1L, "GameName", "Description", Image, Image, areas, cards, enemies, levels, characters, developer2);
 
-        CreateGameRequest gameRequest = new CreateGameRequest(1L, "GameName", "Description", Image, Image, areas2, cards2, enemies2, levels2, characters2);
+        CreateGameRequest gameRequest = new CreateGameRequest(1L, "GameName", "Description", Image, Image, areas2, cards2, enemies2, levels2, characters2, developer);
 
         when(gameRepository.save(Mockito.any(GameEntity.class))).thenReturn(game);
 

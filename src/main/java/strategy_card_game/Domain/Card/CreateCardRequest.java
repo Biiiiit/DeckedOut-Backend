@@ -12,8 +12,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CreateCardRequest {
-    @NotNull
-    private Long id;
     @NotBlank
     private String name;
     @NotNull
