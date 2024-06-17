@@ -40,7 +40,7 @@ public class DeleteCardUseCaseImplTest {
     @Test
     public void testCreateAndDeleteCard() {
         // Create a card using createCardUseCase
-        CreateCardRequest cardRequest = new CreateCardRequest(1L, "Card1", TypeOfCard.Atk, 10, 0, 0);
+        CreateCardRequest cardRequest = new CreateCardRequest("Card1", TypeOfCard.Atk, 10, 0, 0);
 
         // Mock the behavior of cardRepository.save to return a CardEntity with an ID.
         CardEntity savedCard = new CardEntity(1L, "Card1", TypeOfCard.Atk, 10, 0, 0);
