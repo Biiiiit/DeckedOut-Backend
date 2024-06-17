@@ -8,6 +8,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import strategy_card_game.Business.Game.Impl.DeleteGameUseCaseImpl;
 import strategy_card_game.Domain.Game.Game;
+import strategy_card_game.Domain.User.User;
 import strategy_card_game.Persistance.GameRepository;
 
 import java.util.ArrayList;
@@ -28,8 +29,9 @@ public class DeleteGameUseCaseImplTest {
 
     @Test
     public void testDeleteGame() {
+        User developer = new User();
         // Create a mock game for testing
-        Game game = new Game(1L, "GameName", "Description", new byte[0], new byte[0], new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
+        Game game = new Game(1L, "GameName", "Description", new byte[0], new byte[0], new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), developer);
 
         // Mock the behavior of gameRepository.deleteById to do nothing when the game is deleted
         doNothing().when(gameRepository).deleteById(game.getId());
