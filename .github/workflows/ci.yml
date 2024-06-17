@@ -64,7 +64,7 @@ jobs:
           JAVA_HOME_17_X64: ${{ env.JAVA_HOME }}
 
   sonarqube-check:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     needs: test
     steps:
       - uses: actions/checkout@v4
