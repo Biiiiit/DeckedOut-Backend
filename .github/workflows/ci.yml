@@ -30,8 +30,16 @@ jobs:
         with:
           java-version: '17'
           distribution: 'adopt'
+      - name: Make gradlew executable
+        run: chmod +x ./gradlew
       - name: Build with Gradle
         run: ./gradlew assemble
+        env:
+          GRADLE_OPTS: -Dorg.gradle.daemon=false
+          SONAR_USER_HOME: "${{ github.workspace }}/.sonar"
+          GIT_DEPTH: 0
+          JAVA_HOME: ${{ env.JAVA_HOME }}
+          JAVA_HOME_17_X64: ${{ env.JAVA_HOME }}
 
   test:
     runs-on: ubuntu-latest
