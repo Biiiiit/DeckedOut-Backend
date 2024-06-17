@@ -1,4 +1,4 @@
-name: CI
+name: build
 
 on:
   push:
@@ -64,8 +64,10 @@ jobs:
           JAVA_HOME_17_X64: ${{ env.JAVA_HOME }}
 
   sonarqube-check:
+    name: Build and analyze
     runs-on: ubuntu-latest
     needs: test
+    
     steps:
       - uses: actions/checkout@v4
         with:
