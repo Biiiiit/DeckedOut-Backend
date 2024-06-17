@@ -36,7 +36,7 @@ public class CreateCardUseCaseImplTest {
     @Test
     public void testCreateCardSuccess() {
         // Create a mock CreateCardRequest
-        CreateCardRequest request = new CreateCardRequest(1L, "CardName", TypeOfCard.Atk, 10, 0, 0);
+        CreateCardRequest request = new CreateCardRequest("CardName", TypeOfCard.Atk, 10, 0, 0);
 
         // Mock the behavior of cardRepository.save to return a CardEntity with an ID.
         CardEntity savedCard = new CardEntity(1L, "CardName", TypeOfCard.Atk, 10, 0, 0);
@@ -56,7 +56,7 @@ public class CreateCardUseCaseImplTest {
         when(cardRepository.existsByName("ExistingCardName")).thenReturn(true);
 
         // Create a CreateCardRequest for an existing card
-        CreateCardRequest request = new CreateCardRequest(1L, "ExistingCardName", TypeOfCard.Atk, 10, 0, 0);
+        CreateCardRequest request = new CreateCardRequest("ExistingCardName", TypeOfCard.Atk, 10, 0, 0);
 
         // Call the createCard method and expect a CardAlreadyExistsException
         assertThrows(CardAlreadyExistsException.class, () -> createCardUseCase.createCard(request));
