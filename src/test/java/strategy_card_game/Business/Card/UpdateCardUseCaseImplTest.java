@@ -47,7 +47,7 @@ public class UpdateCardUseCaseImplTest {
     @Test
     public void testUpdateCard() {
         // Create a mock CreateCardRequest
-        CreateCardRequest request = new CreateCardRequest(1L, "CardName", TypeOfCard.Atk, 10, 0, 0);
+        CreateCardRequest request = new CreateCardRequest("CardName", TypeOfCard.Atk, 10, 0, 0);
 
         // Mock the behavior of cardRepository.save to return a CardEntity with an ID.
         CardEntity savedCard = new CardEntity(1L, "CardName", TypeOfCard.Atk, 10, 0, 0);
