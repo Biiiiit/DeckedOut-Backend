@@ -3,10 +3,7 @@ package strategy_card_game.Business.Game;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentMatchers;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Mockito;
+import org.mockito.*;
 import org.mockito.junit.jupiter.MockitoExtension;
 import strategy_card_game.Business.Game.Exception.InvalidGameException;
 import strategy_card_game.Business.Game.Impl.CreateGameUseCaseImpl;
@@ -14,6 +11,7 @@ import strategy_card_game.Business.Game.Impl.GetGameUseCaseImpl;
 import strategy_card_game.Business.Game.Impl.UpdateGameUseCaseImpl;
 import strategy_card_game.Domain.Area.Area;
 import strategy_card_game.Domain.Card.Card;
+import strategy_card_game.Domain.Card.TypeOfCard;
 import strategy_card_game.Domain.Enemy.Enemy;
 import strategy_card_game.Domain.Game.CreateGameRequest;
 import strategy_card_game.Domain.Game.CreateGameResponse;
@@ -21,7 +19,6 @@ import strategy_card_game.Domain.Game.Game;
 import strategy_card_game.Domain.Game.UpdateGameRequest;
 import strategy_card_game.Domain.Level.Level;
 import strategy_card_game.Domain.Playable_Character.PlayableCharacter;
-import strategy_card_game.Domain.User.User;
 import strategy_card_game.Persistance.Entity.*;
 import strategy_card_game.Persistance.GameRepository;
 import strategy_card_game.Persistance.UserRepository;
@@ -31,6 +28,8 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -45,11 +44,10 @@ public class UpdateGameUseCaseImplTest {
     @Mock
     private GameRepository gameRepository;
     @Mock
-    private UserRepository userRepository;
+    private UserRepository userRepository; // Mock the UserRepository as well
 
     @BeforeEach
     public void setUp() {
-        // Initialize the mocks and inject them into the use cases
         createGameUseCase = new CreateGameUseCaseImpl(gameRepository, userRepository);
         updateGameUseCase = new UpdateGameUseCaseImpl(gameRepository);
         getGameUseCase = new GetGameUseCaseImpl(gameRepository);
@@ -68,19 +66,22 @@ public class UpdateGameUseCaseImplTest {
         List<Card> cards2 = new ArrayList<>();
         List<PlayableCharacter> characters2 = new ArrayList<>();
         List<Level> levels2 = new ArrayList<>();
-        User developer = new User();
         UserEntity developer2 = new UserEntity();
-        GameEntity game = new GameEntity(1L, "GameName", "Description", Image, Image, areas, cards, enemies, levels, characters, developer2);
+        when(userRepository.findById(1L)).thenReturn(Optional.of(developer2));
 
-        CreateGameRequest gameRequest = new CreateGameRequest(1L, "GameName", "Description", Image, Image, areas2, cards2, enemies2, levels2, characters2, developer);
+        // Create a mock CreateGameRequest
+        CreateGameRequest request = new CreateGameRequest("GameName", "Description", new byte[0], new byte[0], new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), 1L);
 
+        // Mock the behavior of gameRepository.save to return a GameEntity with an ID.
+        GameEntity game = new GameEntity(1L, "GameName", "Description", new byte[0], new byte[0], new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), developer2);
         when(gameRepository.save(Mockito.any(GameEntity.class))).thenReturn(game);
 
         // Call the createCardUseCase to create the game
-        CreateGameResponse createResponse = createGameUseCase.createGame(gameRequest);
+        CreateGameResponse createResponse = createGameUseCase.createGame(request);
 
         // Mock the behavior of cardRepository.findById to return the created game
-        when(gameRepository.findById(ArgumentMatchers.eq(createResponse.getGameId()))).thenReturn(Optional.of(game));
+        when(gameRepository.findById(eq(createResponse.getGameId()))).thenReturn(Optional.of(game));
+
 
         // Create an updated game
         UpdateGameRequest updatedGame = new UpdateGameRequest(createResponse.getGameId(), "UpdatedGame", "Description", Image, Image, areas2, cards2, enemies2, levels2, characters2);
@@ -93,14 +94,14 @@ public class UpdateGameUseCaseImplTest {
         assertTrue(optionalGame.isPresent());
         Game playableGame = optionalGame.get();
         assertEquals("UpdatedGame", playableGame.getName());
-        assertEquals("Description", game.getDescription());
-        assertEquals(Image, game.getBanner());
-        assertEquals(Image, game.getIcon());
-        assertEquals(areas, game.getGameAreas());
-        assertEquals(cards, game.getGameCards());
-        assertEquals(enemies, game.getGameEnemies());
-        assertEquals(levels, game.getGameLevels());
-        assertEquals(characters, game.getGameCharacters());
+        assertEquals("Description", playableGame.getDescription());
+        assertEquals(Image, playableGame.getBanner());
+        assertEquals(Image, playableGame.getIcon());
+        assertEquals(areas, playableGame.getGameAreas());
+        assertEquals(cards, playableGame.getGameCards());
+        assertEquals(enemies, playableGame.getGameEnemies());
+        assertEquals(levels, playableGame.getGameLevels());
+        assertEquals(characters, playableGame.getGameCharacters());
     }
 
     @Test
